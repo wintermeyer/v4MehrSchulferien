@@ -39,7 +39,7 @@ defmodule MehrSchulferien.Locations do
 
   """
   def get_country!(id_or_slug) do
-    case Regex.match?(~r/^[1-9][0-9]*$/, id_or_slug) do
+    case is_integer(id_or_slug) or Regex.match?(~r/^[1-9][0-9]*$/, id_or_slug) do
       true ->
         Repo.get!(Country, id_or_slug)
       false ->
