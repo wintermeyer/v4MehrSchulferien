@@ -16,20 +16,8 @@ defmodule MehrSchulferien.Locations.Country do
   def changeset(%Country{} = country, attrs) do
     country
     |> cast(attrs, [:name, :slug])
-    |> set_slug
+    |> NameSlug.set_slug
     |> validate_required([:name, :slug])
     |> unique_constraint(:slug)
-  end
-
-  defp set_slug(changeset) do
-    name = get_field(changeset, :name)
-    slug = get_field(changeset, :slug)
-
-    case {name, slug} do
-      {_, nil} -> changeset
-                  |> NameSlug.maybe_generate_slug
-                  |> NameSlug.unique_constraint
-      {_, _} -> changeset
-    end
   end
 end
