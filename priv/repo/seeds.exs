@@ -11,6 +11,10 @@
 # and so on) as they will fail if something goes wrong.
 
 alias MehrSchulferien.Locations
+alias MehrSchulferien.Locations.FederalState
+alias MehrSchulferien.Locations.City
+alias MehrSchulferien.Repo
+import Ecto.Query
 
 # Locations
 #
@@ -34,3 +38,13 @@ alias MehrSchulferien.Locations
 {:ok, _sachsenanhalt} = Locations.create_federal_state(%{name: "Sachsen-Anhalt", code: "ST", country_id: deutschland.id})
 {:ok, _schleswigholstein} = Locations.create_federal_state(%{name: "Schleswig-Holstein", code: "SH", country_id: deutschland.id})
 {:ok, _thueringen} = Locations.create_federal_state(%{name: "Thüringen", code: "TH", country_id: deutschland.id})
+
+# Example cities
+#
+query = from f in FederalState, where: f.name == "Brandenburg"
+federal_state = Repo.one!(query)
+{:ok, _} = Locations.create_city(%{name: "Alt Golm", slug: "15526-alt-golm", zip_code: "15526", federal_state_id: federal_state.id, country_id: 1})
+{:ok, _} = Locations.create_city(%{name: "Alt Krüssow", slug: "16921-alt-kruessow", zip_code: "16921", federal_state_id: federal_state.id, country_id: 1})
+{:ok, _} = Locations.create_city(%{name: "Alt Ruppin", slug: "16827-alt-ruppin", zip_code: "16827", federal_state_id: federal_state.id, country_id: 1})
+{:ok, _} = Locations.create_city(%{name: "Annahütte-Siedlung", slug: "01994-annahuette-siedlung", zip_code: "01994", federal_state_id: federal_state.id, country_id: 1})
+{:ok, _} = Locations.create_city(%{name: "Bantikow", slug: "16868-bantikow", zip_code: "16868", federal_state_id: federal_state.id, country_id: 1})
