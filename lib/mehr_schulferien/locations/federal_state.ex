@@ -18,7 +18,7 @@ defmodule MehrSchulferien.Locations.FederalState do
   @doc false
   def changeset(%FederalState{} = federal_state, attrs) do
     federal_state
-    |> cast(attrs, [:name, :code, :slug])
+    |> cast(attrs, [:name, :code, :slug, :country_id])
     |> NameSlug.set_slug
     |> validate_required([:name, :code, :slug])
     |> unique_constraint(:slug)
