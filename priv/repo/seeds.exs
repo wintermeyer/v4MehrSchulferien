@@ -11,10 +11,6 @@
 # and so on) as they will fail if something goes wrong.
 
 alias MehrSchulferien.Locations
-alias MehrSchulferien.Locations.FederalState
-alias MehrSchulferien.Locations.City
-alias MehrSchulferien.Repo
-import Ecto.Query
 
 # Locations
 #
@@ -39,12 +35,14 @@ import Ecto.Query
 {:ok, _schleswigholstein} = Locations.create_federal_state(%{name: "Schleswig-Holstein", code: "SH", country_id: deutschland.id})
 {:ok, _thueringen} = Locations.create_federal_state(%{name: "Thüringen", code: "TH", country_id: deutschland.id})
 
-# Example cities
+# Import cities
 #
-query = from f in FederalState, where: f.name == "Brandenburg"
-federal_state = Repo.one!(query)
-{:ok, _} = Locations.create_city(%{name: "Alt Golm", slug: "15526-alt-golm", zip_code: "15526", federal_state_id: federal_state.id, country_id: 1})
-{:ok, _} = Locations.create_city(%{name: "Alt Krüssow", slug: "16921-alt-kruessow", zip_code: "16921", federal_state_id: federal_state.id, country_id: 1})
-{:ok, _} = Locations.create_city(%{name: "Alt Ruppin", slug: "16827-alt-ruppin", zip_code: "16827", federal_state_id: federal_state.id, country_id: 1})
-{:ok, _} = Locations.create_city(%{name: "Annahütte-Siedlung", slug: "01994-annahuette-siedlung", zip_code: "01994", federal_state_id: federal_state.id, country_id: 1})
-{:ok, _} = Locations.create_city(%{name: "Bantikow", slug: "16868-bantikow", zip_code: "16868", federal_state_id: federal_state.id, country_id: 1})
+File.stream!("priv/repo/city-seeds.json") |>
+Stream.map( &(String.replace(&1, "\n", "")) ) |>
+Stream.with_index |>
+Enum.each( fn({contents, line_num}) ->
+  city = Poison.decode!(contents)
+  federal_state = Locations.get_federal_state!(city["federal_state_slug"])
+  country = Locations.get_country!(city["country_slug"])
+  Locations.create_city(%{name: city["name"], slug: city["slug"], zip_code: city["zip_code"], country_id: country.id, federal_state_id: federal_state.id})
+end)

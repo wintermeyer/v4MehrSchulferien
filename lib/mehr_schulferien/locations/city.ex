@@ -5,6 +5,7 @@ defmodule MehrSchulferien.Locations.City do
   alias MehrSchulferien.Locations.CitySlug
 
   @derive {Phoenix.Param, key: :slug}
+  @derive {Poison.Encoder, only: [:id, :name, :slug, :zip_code, :country_id, :federal_state_id]}
   schema "cities" do
     field :name, :string
     field :slug, CitySlug.Type
