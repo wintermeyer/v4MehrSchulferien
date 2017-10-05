@@ -192,4 +192,84 @@ defmodule MehrSchulferien.LocationsTest do
       assert %Ecto.Changeset{} = Locations.change_city(city)
     end
   end
+
+  describe "schools" do
+    alias MehrSchulferien.Locations.School
+
+    @valid_attrs %{address_city: "some address_city", address_line1: "some address_line1", address_line2: "some address_line2", address_street: "some address_street", address_zip_code: "some address_zip_code", email_address: "some email_address", fax_number: "some fax_number", homepage_url: "some homepage_url", name: "some name", phone_number: "some phone_number", slug: "some slug"}
+    @update_attrs %{address_city: "some updated address_city", address_line1: "some updated address_line1", address_line2: "some updated address_line2", address_street: "some updated address_street", address_zip_code: "some updated address_zip_code", email_address: "some updated email_address", fax_number: "some updated fax_number", homepage_url: "some updated homepage_url", name: "some updated name", phone_number: "some updated phone_number", slug: "some updated slug"}
+    @invalid_attrs %{address_city: nil, address_line1: nil, address_line2: nil, address_street: nil, address_zip_code: nil, email_address: nil, fax_number: nil, homepage_url: nil, name: nil, phone_number: nil, slug: nil}
+
+    def school_fixture(attrs \\ %{}) do
+      {:ok, school} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Locations.create_school()
+
+      school
+    end
+
+    test "list_schools/0 returns all schools" do
+      school = school_fixture()
+      assert Locations.list_schools() == [school]
+    end
+
+    test "get_school!/1 returns the school with given id" do
+      school = school_fixture()
+      assert Locations.get_school!(school.id) == school
+    end
+
+    test "create_school/1 with valid data creates a school" do
+      assert {:ok, %School{} = school} = Locations.create_school(@valid_attrs)
+      assert school.address_city == "some address_city"
+      assert school.address_line1 == "some address_line1"
+      assert school.address_line2 == "some address_line2"
+      assert school.address_street == "some address_street"
+      assert school.address_zip_code == "some address_zip_code"
+      assert school.email_address == "some email_address"
+      assert school.fax_number == "some fax_number"
+      assert school.homepage_url == "some homepage_url"
+      assert school.name == "some name"
+      assert school.phone_number == "some phone_number"
+      assert school.slug == "some slug"
+    end
+
+    test "create_school/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Locations.create_school(@invalid_attrs)
+    end
+
+    test "update_school/2 with valid data updates the school" do
+      school = school_fixture()
+      assert {:ok, school} = Locations.update_school(school, @update_attrs)
+      assert %School{} = school
+      assert school.address_city == "some updated address_city"
+      assert school.address_line1 == "some updated address_line1"
+      assert school.address_line2 == "some updated address_line2"
+      assert school.address_street == "some updated address_street"
+      assert school.address_zip_code == "some updated address_zip_code"
+      assert school.email_address == "some updated email_address"
+      assert school.fax_number == "some updated fax_number"
+      assert school.homepage_url == "some updated homepage_url"
+      assert school.name == "some updated name"
+      assert school.phone_number == "some updated phone_number"
+      assert school.slug == "some updated slug"
+    end
+
+    test "update_school/2 with invalid data returns error changeset" do
+      school = school_fixture()
+      assert {:error, %Ecto.Changeset{}} = Locations.update_school(school, @invalid_attrs)
+      assert school == Locations.get_school!(school.id)
+    end
+
+    test "delete_school/1 deletes the school" do
+      school = school_fixture()
+      assert {:ok, %School{}} = Locations.delete_school(school)
+      assert_raise Ecto.NoResultsError, fn -> Locations.get_school!(school.id) end
+    end
+
+    test "change_school/1 returns a school changeset" do
+      school = school_fixture()
+      assert %Ecto.Changeset{} = Locations.change_school(school)
+    end
+  end
 end

@@ -46,3 +46,29 @@ Enum.each( fn({contents, line_num}) ->
   country = Locations.get_country!(city["country_slug"])
   Locations.create_city(%{name: city["name"], slug: city["slug"], zip_code: city["zip_code"], country_id: country.id, federal_state_id: federal_state.id})
 end)
+
+# Import schools
+#
+File.stream!("priv/repo/school-seeds.json") |>
+Stream.map( &(String.replace(&1, "\n", "")) ) |>
+Stream.with_index |>
+Enum.each( fn({contents, line_num}) ->
+  school = Poison.decode!(contents)
+  city = Locations.get_city!(school["city_slug"])
+  federal_state = Locations.get_federal_state!(school["federal_state_slug"])
+  country = Locations.get_country!(school["country_slug"])
+  Locations.create_school(%{name: school["name"], slug: school["slug"],
+                            address_zip_code: school["address_zip_code"],
+                            address_line1: school["address_line1"],
+                            address_line2: school["address_line2"],
+                            address_street: school["address_street"],
+                            address_zip_code: school["address_zip_code"],
+                            address_city: school["address_city"],
+                            email_address: school["email_address"],
+                            homepage_url: school["homepage_url"],
+                            phone_number: school["phone_number"],
+                            fax_number: school["fax_number"],
+                            city_id: city.id,
+                            country_id: country.id,
+                            federal_state_id: federal_state.id})
+end)
