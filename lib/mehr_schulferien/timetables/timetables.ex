@@ -116,4 +116,111 @@ defmodule MehrSchulferien.Timetables do
   def change_year(%Year{} = year) do
     Year.changeset(year, %{})
   end
+
+  alias MehrSchulferien.Timetables.Month
+
+  @doc """
+  Returns the list of months.
+
+  ## Examples
+
+      iex> list_months()
+      [%Month{}, ...]
+
+  """
+  def list_months do
+    Repo.all(Month)
+  end
+
+  @doc """
+  Gets a single month by id or slug.
+
+  Raises `Ecto.NoResultsError` if the Month does not exist.
+
+  ## Examples
+
+      iex> get_month!(123)
+      %Month{}
+
+      iex> get_month!("2017-02")
+      %Month{}
+
+      iex> get_month!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_month!(id_or_slug) do
+    case is_integer(id_or_slug) or Regex.match?(~r/^[1-9][0-9]*$/, id_or_slug) do
+      true ->
+        Repo.get!(Month, id_or_slug)
+      false ->
+        query = from f in Month, where: f.slug == ^id_or_slug
+        Repo.one!(query)
+    end
+  end
+
+  @doc """
+  Creates a month.
+
+  ## Examples
+
+      iex> create_month(%{field: value})
+      {:ok, %Month{}}
+
+      iex> create_month(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_month(attrs \\ %{}) do
+    %Month{}
+    |> Month.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a month.
+
+  ## Examples
+
+      iex> update_month(month, %{field: new_value})
+      {:ok, %Month{}}
+
+      iex> update_month(month, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_month(%Month{} = month, attrs) do
+    month
+    |> Month.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Month.
+
+  ## Examples
+
+      iex> delete_month(month)
+      {:ok, %Month{}}
+
+      iex> delete_month(month)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_month(%Month{} = month) do
+    Repo.delete(month)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking month changes.
+
+  ## Examples
+
+      iex> change_month(month)
+      %Ecto.Changeset{source: %Month{}}
+
+  """
+  def change_month(%Month{} = month) do
+    Month.changeset(month, %{})
+  end
 end
