@@ -24,6 +24,10 @@ defmodule MehrSchulferienWeb.Router do
     resources "/federal_states", FederalStateController
     resources "/cities", CityController
     resources "/schools", SchoolController
+
+    # Timetables
+    #
+    resources "/years", YearController
   end
 
   # Other scopes may use custom stacks.
