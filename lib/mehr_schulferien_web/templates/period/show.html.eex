@@ -1,0 +1,38 @@
+<h2>Show Period</h2>
+
+<ul>
+
+  <li>
+    <strong>Starts on:</strong>
+    <%= @period.starts_on %>
+  </li>
+
+  <li>
+    <strong>Ends on:</strong>
+    <%= @period.ends_on %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @period.name %>
+  </li>
+
+  <li>
+    <strong>Category:</strong>
+    <%= @period.category %>
+  </li>
+
+  <li>
+    <strong>Slug:</strong>
+    <%= @period.slug %>
+  </li>
+
+  <li>
+    <strong>Source:</strong>
+    <%= @period.source %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: period_path(@conn, :edit, @period) %></span>
+<span><%= link "Back", to: period_path(@conn, :index) %></span>

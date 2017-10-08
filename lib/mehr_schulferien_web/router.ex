@@ -30,6 +30,7 @@ defmodule MehrSchulferienWeb.Router do
     resources "/years", YearController
     resources "/months", MonthController
     resources "/days", DayController
+    resources "/periods", PeriodController
   end
 
   # Other scopes may use custom stacks.
