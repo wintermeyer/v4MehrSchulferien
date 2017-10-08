@@ -12,6 +12,7 @@
 
 alias MehrSchulferien.Locations
 alias MehrSchulferien.Timetables
+import Ecto.Query
 
 # Locations
 #
@@ -86,13 +87,11 @@ Enum.each (2016..2025), fn year_number ->
           ^year_number ->
             case day.day do
               1 -> {:ok, month} = Timetables.create_month(%{value: day.month, year_id: year.id})
-#               _ -> query = from m in Calendar.Month, where: m.value == ^day.month, where: m.year_id == ^year.id
-#                    month = MehrSchulferien.Repo.one(query)
-              _ -> nil
-
+              _ -> query = from m in Timetables.Month, where: m.value == ^day.month, where: m.year_id == ^year.id
+                   month = MehrSchulferien.Repo.one(query)
             end
 
-#             Calendar.create_day(%{value: day.day, year_id: year.id, month_id: month.id })
+            Timetables.create_day(%{value: day})
           _ -> nil
         end
       _ -> nil

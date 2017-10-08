@@ -126,4 +126,76 @@ defmodule MehrSchulferien.TimetablesTest do
       assert %Ecto.Changeset{} = Timetables.change_month(month)
     end
   end
+
+  describe "days" do
+    alias MehrSchulferien.Timetables.Day
+
+    @valid_attrs %{calendar_week: 42, day_of_month: 42, day_of_year: 42, slug: "some slug", value: ~D[2010-04-17], weekday: 42, weekday_de: "some weekday_de"}
+    @update_attrs %{calendar_week: 43, day_of_month: 43, day_of_year: 43, slug: "some updated slug", value: ~D[2011-05-18], weekday: 43, weekday_de: "some updated weekday_de"}
+    @invalid_attrs %{calendar_week: nil, day_of_month: nil, day_of_year: nil, slug: nil, value: nil, weekday: nil, weekday_de: nil}
+
+    def day_fixture(attrs \\ %{}) do
+      {:ok, day} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Timetables.create_day()
+
+      day
+    end
+
+    test "list_days/0 returns all days" do
+      day = day_fixture()
+      assert Timetables.list_days() == [day]
+    end
+
+    test "get_day!/1 returns the day with given id" do
+      day = day_fixture()
+      assert Timetables.get_day!(day.id) == day
+    end
+
+    test "create_day/1 with valid data creates a day" do
+      assert {:ok, %Day{} = day} = Timetables.create_day(@valid_attrs)
+      assert day.calendar_week == 42
+      assert day.day_of_month == 42
+      assert day.day_of_year == 42
+      assert day.slug == "some slug"
+      assert day.value == ~D[2010-04-17]
+      assert day.weekday == 42
+      assert day.weekday_de == "some weekday_de"
+    end
+
+    test "create_day/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Timetables.create_day(@invalid_attrs)
+    end
+
+    test "update_day/2 with valid data updates the day" do
+      day = day_fixture()
+      assert {:ok, day} = Timetables.update_day(day, @update_attrs)
+      assert %Day{} = day
+      assert day.calendar_week == 43
+      assert day.day_of_month == 43
+      assert day.day_of_year == 43
+      assert day.slug == "some updated slug"
+      assert day.value == ~D[2011-05-18]
+      assert day.weekday == 43
+      assert day.weekday_de == "some updated weekday_de"
+    end
+
+    test "update_day/2 with invalid data returns error changeset" do
+      day = day_fixture()
+      assert {:error, %Ecto.Changeset{}} = Timetables.update_day(day, @invalid_attrs)
+      assert day == Timetables.get_day!(day.id)
+    end
+
+    test "delete_day/1 deletes the day" do
+      day = day_fixture()
+      assert {:ok, %Day{}} = Timetables.delete_day(day)
+      assert_raise Ecto.NoResultsError, fn -> Timetables.get_day!(day.id) end
+    end
+
+    test "change_day/1 returns a day changeset" do
+      day = day_fixture()
+      assert %Ecto.Changeset{} = Timetables.change_day(day)
+    end
+  end
 end
