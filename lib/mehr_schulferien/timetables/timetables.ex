@@ -347,7 +347,7 @@ defmodule MehrSchulferien.Timetables do
   end
 
   @doc """
-  Gets a single period.
+  Gets a single period by id or slug.
 
   Raises `Ecto.NoResultsError` if the Period does not exist.
 
@@ -356,11 +356,22 @@ defmodule MehrSchulferien.Timetables do
       iex> get_period!(123)
       %Period{}
 
+      iex> get_period!("2016-10-31-2016-11-04-herbst-bayern")
+      %Period{}
+
       iex> get_period!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_period!(id), do: Repo.get!(Period, id)
+  def get_period!(id_or_slug) do
+    case is_integer(id_or_slug) or Regex.match?(~r/^[1-9][0-9]*$/, id_or_slug) do
+      true ->
+        Repo.get!(Period, id_or_slug)
+      false ->
+        query = from f in Period, where: f.slug == ^id_or_slug
+        Repo.one!(query)
+    end
+  end
 
   @doc """
   Creates a period.

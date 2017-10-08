@@ -32,6 +32,25 @@
     <%= @period.source %>
   </li>
 
+  <li>
+    <strong>country_id:</strong>
+    <%= @period.country_id %>
+  </li>
+
+  <li>
+    <strong>federal_state_id:</strong>
+    <%= @period.federal_state_id %>
+  </li>
+
+  <li>
+    <strong>city_id:</strong>
+    <%= @period.city_id %>
+  </li>
+
+  <li>
+    <strong>school_id:</strong>
+    <%= @period.school_id %>
+  </li>
 </ul>
 
 <span><%= link "Edit", to: period_path(@conn, :edit, @period) %></span>

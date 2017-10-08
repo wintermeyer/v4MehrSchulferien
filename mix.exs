@@ -42,7 +42,9 @@ defmodule MehrSchulferien.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:ecto_autoslug_field, "~> 0.3"},
-      {:poison, "~> 3.1"}
+      {:slugger, "~> 0.2"},
+      {:poison, "~> 3.1"},
+      { :uuid, "~> 1.1" }
     ]
   end
 

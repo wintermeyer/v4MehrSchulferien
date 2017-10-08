@@ -2,13 +2,15 @@ defmodule MehrSchulferien.Timetables.Period do
   use Ecto.Schema
   import Ecto.Changeset
   alias MehrSchulferien.Timetables.Period
+  alias MehrSchulferien.Timetables.PeriodSlug
 
 
+  @derive {Phoenix.Param, key: :slug}
   schema "periods" do
     field :ends_on, :date
     field :name, :string
     field :category, :string
-    field :slug, :string
+    field :slug, PeriodSlug.Type
     field :source, :string
     field :starts_on, :date
     belongs_to :school, MehrSchulferien.Locations.School
@@ -29,7 +31,8 @@ defmodule MehrSchulferien.Timetables.Period do
     |> validate_one_of_present([:country_id, :federal_state_id, :city_id, :school_id])
     |> validate_inclusion(:category, ["Schulferien", "Gesetzlicher Feiertag", "Wochenende", "Katholischer Feiertag", "Evangelischer Feiertag", "Jüdischer Feiertag", "Islamischer Feiertag", "Schulfrei" ])
     |> validate_starts_on_is_before_or_equal_ends_on
-    # |> unique_constraint(:slug)
+    |> PeriodSlug.set_slug
+    |> unique_constraint(:slug)
   end
 
   defp validate_one_of_present(changeset, fields) do
