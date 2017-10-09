@@ -12,6 +12,7 @@
 
 alias MehrSchulferien.Locations
 alias MehrSchulferien.Timetables
+alias MehrSchulferien.Users
 import Ecto.Query
 
 # Locations
@@ -150,3 +151,9 @@ Enum.each( fn({contents, line_num}) ->
     {_, _, _, _} -> nil
   end
 end)
+
+# Religionen
+#
+for religion <- ["Katholisch", "Evangelisch", "Jüdisch", "Islamisch"] do
+  Users.create_religion(%{name: religion})
+end

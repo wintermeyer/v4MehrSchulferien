@@ -1,0 +1,5 @@
+<h2>Edit Religion</h2>
+
+<%= render "form.html", Map.put(assigns, :action, religion_path(@conn, :update, @religion)) %>
+
+<span><%= link "Back", to: religion_path(@conn, :index) %></span>

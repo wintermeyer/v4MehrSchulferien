@@ -1,0 +1,28 @@
+<h2>Listing Religions</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Slug</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for religion <- @religions do %>
+    <tr>
+      <td><%= religion.name %></td>
+      <td><%= religion.slug %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: religion_path(@conn, :show, religion), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: religion_path(@conn, :edit, religion), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: religion_path(@conn, :delete, religion), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Religion", to: religion_path(@conn, :new) %></span>

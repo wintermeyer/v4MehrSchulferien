@@ -51,6 +51,11 @@
     <strong>school_id:</strong>
     <%= @period.school_id %>
   </li>
+
+  <li>
+    <strong>religion_id:</strong>
+    <%= @period.religion_id %>
+  </li>
 </ul>
 
 <span><%= link "Edit", to: period_path(@conn, :edit, @period) %></span>

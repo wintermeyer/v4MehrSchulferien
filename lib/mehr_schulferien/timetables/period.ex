@@ -17,6 +17,7 @@ defmodule MehrSchulferien.Timetables.Period do
     belongs_to :city, MehrSchulferien.Locations.City
     belongs_to :federal_state, MehrSchulferien.Locations.FederalState
     belongs_to :country, MehrSchulferien.Locations.Country
+    belongs_to :religion, MehrSchulferien.Users.Religion
     # has_many :slots, MehrSchulferien.Timetables.Slot
     # has_many :days, through: [:slots, :days]
 
@@ -26,10 +27,10 @@ defmodule MehrSchulferien.Timetables.Period do
   @doc false
   def changeset(%Period{} = period, attrs) do
     period
-    |> cast(attrs, [:starts_on, :ends_on, :name, :category, :source, :country_id, :federal_state_id, :city_id, :school_id])
+    |> cast(attrs, [:starts_on, :ends_on, :name, :category, :source, :country_id, :federal_state_id, :city_id, :school_id, :religion_id])
     |> validate_required([:starts_on, :ends_on, :name, :category])
     |> validate_one_of_present([:country_id, :federal_state_id, :city_id, :school_id])
-    |> validate_inclusion(:category, ["Schulferien", "Gesetzlicher Feiertag", "Wochenende", "Katholischer Feiertag", "Evangelischer Feiertag", "Jüdischer Feiertag", "Islamischer Feiertag", "Schulfrei" ])
+    |> validate_inclusion(:category, ["Schulferien", "Gesetzlicher Feiertag", "Wochenende", "Schulfrei" ])
     |> validate_starts_on_is_before_or_equal_ends_on
     |> PeriodSlug.set_slug
     |> unique_constraint(:slug)
