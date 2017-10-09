@@ -18,8 +18,8 @@ defmodule MehrSchulferien.Timetables.Period do
     belongs_to :federal_state, MehrSchulferien.Locations.FederalState
     belongs_to :country, MehrSchulferien.Locations.Country
     belongs_to :religion, MehrSchulferien.Users.Religion
-    # has_many :slots, MehrSchulferien.Timetables.Slot
-    # has_many :days, through: [:slots, :days]
+    has_many :slots, MehrSchulferien.Timetables.Slot
+    has_many :days, through: [:slots, :days]
 
     timestamps()
   end
