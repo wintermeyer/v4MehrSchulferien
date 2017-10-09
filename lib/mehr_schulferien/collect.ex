@@ -17,14 +17,60 @@ defmodule MehrSchulferien.Collect do
 
     days = render_ready_days(locations, starts_on, ends_on)
            |> chunk_days_to_months
-          #  |> prepare_list_of_months_to_be_displayed
-          #  |> convert_to_maps
+           |> prepare_list_of_months_to_be_displayed
+           |> convert_to_maps
           #  |> inject_list_of_vacation_periods(country_id, federal_state_id)
           #  |> inject_list_of_bank_holiday_periods
   end
 
   def chunk_days_to_months(days) do
     days |> Enum.chunk_by(fn %{value: %{year: year, month: month}} -> {year, month} end)
+  end
+
+  def prepare_list_of_months_to_be_displayed(months) do
+    for month <- months do
+      prepare_days_of_a_month_to_be_displayed(month)
+    end
+  end
+
+  def prepare_days_of_a_month_to_be_displayed(days) do
+    # Fill days with empty elements for the calendar blanks in
+    # the first and last line of it.
+    #
+    head_fill = case List.first(days)[:weekday] do
+      1 -> nil
+      2 -> [{}]
+      3 -> [{},{}]
+      4 -> [{},{},{}]
+      5 -> [{},{},{},{}]
+      6 -> [{},{},{},{},{}]
+      7 -> [{},{},{},{},{},{}]
+    end
+
+    tail_fill = case List.last(days)[:weekday] do
+      7 -> nil
+      6 -> [{}]
+      5 -> [{},{}]
+      4 -> [{},{},{}]
+      3 -> [{},{},{},{}]
+      2 -> [{},{},{},{},{}]
+      1 -> [{},{},{},{},{},{}]
+    end
+
+    days = case {head_fill, tail_fill} do
+      {nil, nil} -> days
+      {nil, _} -> Enum.concat(days, tail_fill)
+      {_, nil} -> Enum.concat(head_fill, days)
+      {_, _} -> Enum.concat(Enum.concat(head_fill, days), tail_fill)
+    end
+
+    Enum.chunk_every(days, 7)
+  end
+
+  def convert_to_maps(months) do
+    for month <- months do
+      %{month: month}
+    end
   end
 
   def render_ready_days(locations \\ [], starts_on \\ nil, ends_on \\ nil, religions \\ [MehrSchulferien.Users.get_religion!("keine")]) do

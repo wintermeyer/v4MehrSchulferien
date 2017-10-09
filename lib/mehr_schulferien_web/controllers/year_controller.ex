@@ -2,6 +2,7 @@ defmodule MehrSchulferienWeb.YearController do
   use MehrSchulferienWeb, :controller
 
   alias MehrSchulferien.Timetables
+  alias MehrSchulferien.Locations
   alias MehrSchulferien.Timetables.Year
 
   def index(conn, _params) do
@@ -27,11 +28,12 @@ defmodule MehrSchulferienWeb.YearController do
 
   def show(conn, %{"id" => id, "federal_state_id" => federal_state_id}) do
     year = Timetables.get_year!(id)
-    federal_state = Location.get_federal_state!(federal_state_id)
+    federal_state = Locations.get_federal_state!(federal_state_id)
+    country = Locations.get_country!(federal_state.country_id)
     {:ok, starts_on} = Date.from_erl({year.value, 1, 1})
     {:ok, ends_on} = Date.from_erl({year.value, 12, 31})
 
-    months = MehrSchulferien.Collect.calendar_ready_months(starts_on, ends_on, [federal_state])
+    months = MehrSchulferien.Collect.calendar_ready_months([federal_state, country], starts_on, ends_on)
 
     render(conn, "show-timeperiod.html", year: year,
                                          federal_state: federal_state,
