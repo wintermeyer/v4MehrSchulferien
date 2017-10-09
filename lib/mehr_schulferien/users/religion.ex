@@ -5,6 +5,7 @@ defmodule MehrSchulferien.Users.Religion do
   alias MehrSchulferien.NameSlug
 
 
+  @derive {Phoenix.Param, key: :slug}
   schema "religions" do
     field :name, :string
     field :slug, NameSlug.Type

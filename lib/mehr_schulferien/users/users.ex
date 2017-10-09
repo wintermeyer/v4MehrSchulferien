@@ -22,7 +22,7 @@ defmodule MehrSchulferien.Users do
   end
 
   @doc """
-  Gets a single religion.
+  Gets a single religion by id or slug.
 
   Raises `Ecto.NoResultsError` if the Religion does not exist.
 
@@ -31,11 +31,22 @@ defmodule MehrSchulferien.Users do
       iex> get_religion!(123)
       %Religion{}
 
+      iex> get_religion!("Katholisch")
+      %Religion{}
+
       iex> get_religion!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_religion!(id), do: Repo.get!(Religion, id)
+  def get_religion!(id_or_slug) do
+    case is_integer(id_or_slug) or Regex.match?(~r/^[1-9][0-9]*$/, id_or_slug) do
+      true ->
+        Repo.get!(Religion, id_or_slug)
+      false ->
+        query = from f in Religion, where: f.slug == ^id_or_slug
+        Repo.one!(query)
+    end
+  end
 
   @doc """
   Creates a religion.

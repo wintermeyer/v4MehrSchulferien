@@ -36,6 +36,12 @@ defmodule MehrSchulferienWeb.Router do
     # Users
     #
     resources "/religions", ReligionController
+
+    # nested routes
+    #
+    resources "/federal_states", FederalStateController, only: [:show] do
+      resources "/years", YearController, only: [:show]
+    end
   end
 
   # Other scopes may use custom stacks.

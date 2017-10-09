@@ -76,6 +76,13 @@ Enum.each( fn({contents, line_num}) ->
                             federal_state_id: federal_state.id})
 end)
 
+# Religionen
+#
+{:ok, keine_religion} = Users.create_religion(%{name: "Keine"})
+for religion <- ["Katholisch", "Evangelisch", "Jüdisch", "Islamisch"] do
+  Users.create_religion(%{name: religion})
+end
+
 # Years 2016-2025
 #
 Enum.each (2016..2025), fn year_number ->
@@ -117,6 +124,7 @@ Enum.each( fn({contents, line_num}) ->
             category: period["category"],
             source: period["source"],
             name: period["name"],
+            religion_id: keine_religion.id
           })
     {nil, nil, slug, nil} ->
           federal_state = Locations.get_federal_state!(slug)
@@ -127,6 +135,7 @@ Enum.each( fn({contents, line_num}) ->
             category: period["category"],
             source: period["source"],
             name: period["name"],
+            religion_id: keine_religion.id
           })
     {nil, slug, nil, nil} ->
           city = Locations.get_city!(slug)
@@ -137,6 +146,7 @@ Enum.each( fn({contents, line_num}) ->
             category: period["category"],
             source: period["source"],
             name: period["name"],
+            religion_id: keine_religion.id
           })
     {slug, nil, nil, nil} ->
           school = Locations.get_school!(slug)
@@ -147,13 +157,8 @@ Enum.each( fn({contents, line_num}) ->
             category: period["category"],
             source: period["source"],
             name: period["name"],
+            religion_id: keine_religion.id
           })
     {_, _, _, _} -> nil
   end
 end)
-
-# Religionen
-#
-for religion <- ["Katholisch", "Evangelisch", "Jüdisch", "Islamisch"] do
-  Users.create_religion(%{name: religion})
-end

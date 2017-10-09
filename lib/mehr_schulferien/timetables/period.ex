@@ -28,12 +28,13 @@ defmodule MehrSchulferien.Timetables.Period do
   def changeset(%Period{} = period, attrs) do
     period
     |> cast(attrs, [:starts_on, :ends_on, :name, :category, :source, :country_id, :federal_state_id, :city_id, :school_id, :religion_id])
-    |> validate_required([:starts_on, :ends_on, :name, :category])
+    |> validate_required([:starts_on, :ends_on, :name, :category, :religion_id])
     |> validate_one_of_present([:country_id, :federal_state_id, :city_id, :school_id])
-    |> validate_inclusion(:category, ["Schulferien", "Gesetzlicher Feiertag", "Wochenende", "Schulfrei" ])
+    |> validate_inclusion(:category, ["Schulferien", "Gesetzlicher Feiertag", "Religiöser Feiertag", "Wochenende", "Schulfrei" ])
     |> validate_starts_on_is_before_or_equal_ends_on
     |> PeriodSlug.set_slug
     |> unique_constraint(:slug)
+    |> assoc_constraint(:religion)
   end
 
   defp validate_one_of_present(changeset, fields) do

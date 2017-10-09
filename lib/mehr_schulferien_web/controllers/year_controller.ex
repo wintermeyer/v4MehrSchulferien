@@ -25,6 +25,19 @@ defmodule MehrSchulferienWeb.YearController do
     end
   end
 
+  def show(conn, %{"id" => id, "federal_state_id" => federal_state_id}) do
+    year = Timetables.get_year!(id)
+    federal_state = Location.get_federal_state!(federal_state_id)
+    {:ok, starts_on} = Date.from_erl({year.value, 1, 1})
+    {:ok, ends_on} = Date.from_erl({year.value, 12, 31})
+
+    months = MehrSchulferien.Collect.calendar_ready_months(starts_on, ends_on, [federal_state])
+
+    render(conn, "show-timeperiod.html", year: year,
+                                         federal_state: federal_state,
+                                         months: months)
+  end
+
   def show(conn, %{"id" => id}) do
     year = Timetables.get_year!(id)
     render(conn, "show.html", year: year)
