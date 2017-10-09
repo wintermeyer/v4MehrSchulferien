@@ -53,6 +53,48 @@
               </tbody>
             </table>
 
+            <div class="row">
+              <div class="col-md-6">
+                <%= if length(month[:school_vacation_periods]) > 0 do %>
+                  <h4>Schulferien</h4>
+                  <dl>
+                    <%= for period <- month[:school_vacation_periods] do %>
+                      <dt><%= period[:name] %></dt>
+                      <dd>
+                        <%= if period[:starts_on] == period[:ends_on] do %>
+                          <%= period[:starts_on].day %>.<%= period[:starts_on].month %>.
+                          <span class="label label-success">1 Tag</span>
+                        <% else %>
+                         <%= period[:starts_on].day %>.<%= period[:starts_on].month %>. -
+                         <%= period[:ends_on].day %>.<%= period[:ends_on].month %>.
+                         <span class="label label-success"><%= period[:length] %> Tage</span>
+                        <% end %>
+                      </dd>
+                    <% end %>
+                  </dl>
+                <% end %>
+              </div>
+              <div class="col-md-6">
+                <%= if length(month[:bank_holiday_periods]) > 0 do %>
+                  <h4>Feiertage</h4>
+                  <dl>
+                    <%= for period <- month[:bank_holiday_periods] do %>
+                      <dt><%= period[:name] %></dt>
+                      <dd>
+                        <%= if period[:starts_on] == period[:ends_on] do %>
+                          <%= period[:starts_on].day %>.<%= period[:starts_on].month %>.
+                          <span class="label label-info">1 Tag</span>
+                        <% else %>
+                         <%= period[:starts_on].day %>.<%= period[:starts_on].month %>. -
+                         <%= period[:ends_on].day %>.<%= period[:ends_on].month %>.
+                         <span class="label label-info"><%= Date.diff(period[:ends_on], period[:starts_on]) + 1 %> Tage</span>
+                        <% end %>
+                      </dd>
+                    <% end %>
+                  </dl>
+                <% end %>
+              </div>
+            </div>
           </div>
         <% end %>
       </div>
