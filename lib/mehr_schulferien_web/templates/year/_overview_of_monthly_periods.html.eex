@@ -1,10 +1,10 @@
 <%= if length(@month[:school_vacation_periods]) > 0 and length(@month[:bank_holiday_periods]) > 0 do %>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-xs-6">
       <h4>Schulferien</h4>
       <%= render MehrSchulferienWeb.YearView, "_dl_of_periods.html", periods: @month[:school_vacation_periods], label_class: "label-success" %>
     </div>
-    <div class="col-md-6">
+    <div class="col-xs-6">
       <h4>Feiertage</h4>
       <%= render MehrSchulferienWeb.YearView, "_dl_of_periods.html", periods: @month[:bank_holiday_periods], label_class: "label-info" %>
     </div>
@@ -12,20 +12,20 @@
 <% else %>
   <%= if length(@month[:school_vacation_periods]) > 0 do %>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-xs-12">
         <h4>Schulferien</h4>
       </div>
     </div>
     <div class="row">
       <%= if length(@month[:school_vacation_periods]) == 1 do %>
-        <div class="col-md-12">
+        <div class="col-xs-12">
           <%= render MehrSchulferienWeb.YearView, "_dl_of_periods.html", periods: @month[:school_vacation_periods], label_class: "label-success" %>
         </div>
       <% else %>
         <% len = round(length(@month[:school_vacation_periods])/2) %>
         <% parts = Tuple.to_list(Enum.split(@month[:school_vacation_periods], len)) %>
         <%= for part <- parts do %>
-          <div class="col-md-6">
+          <div class="col-xs-6">
             <%= render MehrSchulferienWeb.YearView, "_dl_of_periods.html", periods: part, label_class: "label-sucess" %>
           </div>
         <% end %>
@@ -34,20 +34,20 @@
   <% else %>
     <%= if length(@month[:bank_holiday_periods]) > 0 do %>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
           <h4>Feiertage</h4>
         </div>
       </div>
       <div class="row">
         <%= if length(@month[:bank_holiday_periods]) == 1 do %>
-          <div class="col-md-12">
+          <div class="col-xs-12">
             <%= render MehrSchulferienWeb.YearView, "_dl_of_periods.html", periods: @month[:bank_holiday_periods], label_class: "label-info" %>
           </div>
         <% else %>
           <% len = round(length(@month[:bank_holiday_periods])/2) %>
           <% parts = Tuple.to_list(Enum.split(@month[:bank_holiday_periods], len)) %>
           <%= for part <- parts do %>
-            <div class="col-md-6">
+            <div class="col-xs-6">
               <%= render MehrSchulferienWeb.YearView, "_dl_of_periods.html", periods: part, label_class: "label-info" %>
             </div>
           <% end %>
