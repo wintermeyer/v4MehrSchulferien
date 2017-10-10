@@ -5,9 +5,16 @@
 </ol>
 
 <div class="page-header">
-  <h1>
-    <%= @federal_state.name %> <%= @year.value %>
-  </h1>
+  <div class="row">
+    <div class="col-xs-10">
+      <h1>
+        <%= @federal_state.name %>
+      </h1>
+    </div>
+    <div class="col-xs-2">
+      <img src="<%= static_path(@conn, "/images/logo.png") %>" width="100" align="right">
+    </div>
+  </div>
 </div>
 
 <div class="row">
