@@ -19,8 +19,8 @@ defmodule MehrSchulferien.Collect do
            |> chunk_days_to_months
            |> prepare_list_of_months_to_be_displayed
            |> convert_to_maps
-           |> inject_list_of_vacation_periods
-           |> inject_list_of_bank_holiday_periods
+           |> inject_summary_list_by_category("Schulferien", :school_vacation_periods)
+           |> inject_summary_list_by_category("Gesetzlicher Feiertag", :bank_holiday_periods)
   end
 
   def chunk_days_to_months(days) do
@@ -183,72 +183,26 @@ defmodule MehrSchulferien.Collect do
     {starts_on, ends_on}
   end
 
-  def filter_category(month, locations, category_name) do
-    school_vacation_periods =
-      for week <- month[:month] do
-        for day <- week do
-          unless day == {} do
-            for {%{category: "Schulferien", ends_on: ends_on, id: id, name: name, slug: slug, starts_on: starts_on},_,_,_,_} <- day[:periods] do
-              length = Date.diff(ends_on, starts_on) + 1
-              %{category: "Schulferien", ends_on: ends_on, id: id, name: name, slug: slug, starts_on: starts_on, length: length}
-            end
-          end
-        end
-      end |> List.flatten |> Enum.uniq |> Enum.filter(& !is_nil(&1))
-
-    Map.put_new(month, :school_vacation_periods, school_vacation_periods)
-  end
-
-  def inject_list_of_vacation_periods(months) do
+  # collect all vacations, bank_holidays or what ever and inject them
+  #
+  def inject_summary_list_by_category(months, category_name, key_name) do
     for month <- months do
-      school_vacation_periods =
+      periods =
         for week <- month[:month] do
           for day <- week do
             unless day == {} do
-              for {%{category: "Schulferien", ends_on: ends_on, id: id, name: name, slug: slug, starts_on: starts_on},_,_,_,_} <- day[:periods] do
+              for {%{category: ^category_name, ends_on: ends_on, id: id,
+                     name: name, slug: slug,
+                     starts_on: starts_on},_,_,_,_} <- day[:periods] do
                 length = Date.diff(ends_on, starts_on) + 1
-                %{category: "Schulferien", ends_on: ends_on, id: id, name: name, slug: slug, starts_on: starts_on, length: length}
+                %{category: category_name, ends_on: ends_on, id: id,
+                  name: name, slug: slug, starts_on: starts_on, length: length}
               end
             end
           end
         end |> List.flatten |> Enum.uniq |> Enum.filter(& !is_nil(&1))
 
-      Map.put_new(month, :school_vacation_periods, school_vacation_periods)
-    end
-  end
-
-  # def off_days(starts_on, ends_on, country_id, federal_state_id, city_id \\ nil, school_id \\ nil) do
-  #   days = MehrSchulferien.Collect.days(Date.add(starts_on, -65), Date.add(ends_on, 65), country_id, federal_state_id, city_id, school_id)
-  #
-  #   for day <- days do
-  #     categories = for period <- day.periods do
-  #       {period_data, country, federal_state} = period
-  #       period_data.category
-  #     end |> List.flatten
-  #
-  #     if Enum.member?(categories, "Wochenende") or
-  #        Enum.member?(categories, "Schulferien") or
-  #        Enum.member?(categories, "Gesetzlicher Feiertag") do
-  #        day[:date_value]
-  #     end
-  #   end |> Enum.filter(& !is_nil(&1))
-  # end
-
-  def inject_list_of_bank_holiday_periods(months) do
-    for month <- months do
-      bank_holiday_periods =
-        for week <- month[:month] do
-          for day <- week do
-            unless day == {} do
-              for {%{category: "Gesetzlicher Feiertag", ends_on: ends_on, id: id, name: name, slug: slug, starts_on: starts_on},_,_,_,_} <- day[:periods] do
-                length = Date.diff(ends_on, starts_on) + 1
-                %{category: "Gesetzlicher Feiertag", ends_on: ends_on, id: id, name: name, slug: slug, starts_on: starts_on, length: length}
-              end
-            end
-          end
-        end |> List.flatten |> Enum.uniq |> Enum.filter(& !is_nil(&1))
-
-      Map.put_new(month, :bank_holiday_periods, bank_holiday_periods)
+      Map.put_new(month, key_name, periods)
     end
   end
 
