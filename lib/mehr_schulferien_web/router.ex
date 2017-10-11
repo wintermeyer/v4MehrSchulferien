@@ -32,6 +32,7 @@ defmodule MehrSchulferienWeb.Router do
     resources "/days", DayController
     resources "/periods", PeriodController
     resources "/slots", SlotController
+    resources "/bewegliche_ferientage", BeweglicherFerientagController
 
     # Users
     #

@@ -1,0 +1,5 @@
+<h2>Edit Beweglicher ferientag</h2>
+
+<%= render "form.html", Map.put(assigns, :action, beweglicher_ferientag_path(@conn, :update, @beweglicher_ferientag)) %>
+
+<span><%= link "Back", to: beweglicher_ferientag_path(@conn, :index) %></span>

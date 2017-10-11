@@ -1,0 +1,30 @@
+<h2>Listing Bewegliche ferientage</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>FederalState (ID)</th>
+      <th>Year (ID)</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for beweglicher_ferientag <- @bewegliche_ferientage do %>
+    <tr>
+      <td><%= beweglicher_ferientag.value %></td>
+      <td><%= beweglicher_ferientag.federal_state_id %></td>
+      <td><%= beweglicher_ferientag.year_id %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: beweglicher_ferientag_path(@conn, :show, beweglicher_ferientag), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: beweglicher_ferientag_path(@conn, :edit, beweglicher_ferientag), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: beweglicher_ferientag_path(@conn, :delete, beweglicher_ferientag), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Beweglicher ferientag", to: beweglicher_ferientag_path(@conn, :new) %></span>

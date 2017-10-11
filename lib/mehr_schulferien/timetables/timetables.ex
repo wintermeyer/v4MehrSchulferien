@@ -545,4 +545,100 @@ defmodule MehrSchulferien.Timetables do
   def change_slot(%Slot{} = slot) do
     Slot.changeset(slot, %{})
   end
+
+  alias MehrSchulferien.Timetables.BeweglicherFerientag
+
+  @doc """
+  Returns the list of bewegliche_ferientage.
+
+  ## Examples
+
+      iex> list_bewegliche_ferientage()
+      [%BeweglicherFerientag{}, ...]
+
+  """
+  def list_bewegliche_ferientage do
+    Repo.all(BeweglicherFerientag)
+  end
+
+  @doc """
+  Gets a single beweglicher_ferientag.
+
+  Raises `Ecto.NoResultsError` if the Beweglicher ferientag does not exist.
+
+  ## Examples
+
+      iex> get_beweglicher_ferientag!(123)
+      %BeweglicherFerientag{}
+
+      iex> get_beweglicher_ferientag!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_beweglicher_ferientag!(id), do: Repo.get!(BeweglicherFerientag, id)
+
+  @doc """
+  Creates a beweglicher_ferientag.
+
+  ## Examples
+
+      iex> create_beweglicher_ferientag(%{field: value})
+      {:ok, %BeweglicherFerientag{}}
+
+      iex> create_beweglicher_ferientag(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_beweglicher_ferientag(attrs \\ %{}) do
+    %BeweglicherFerientag{}
+    |> BeweglicherFerientag.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a beweglicher_ferientag.
+
+  ## Examples
+
+      iex> update_beweglicher_ferientag(beweglicher_ferientag, %{field: new_value})
+      {:ok, %BeweglicherFerientag{}}
+
+      iex> update_beweglicher_ferientag(beweglicher_ferientag, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_beweglicher_ferientag(%BeweglicherFerientag{} = beweglicher_ferientag, attrs) do
+    beweglicher_ferientag
+    |> BeweglicherFerientag.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a BeweglicherFerientag.
+
+  ## Examples
+
+      iex> delete_beweglicher_ferientag(beweglicher_ferientag)
+      {:ok, %BeweglicherFerientag{}}
+
+      iex> delete_beweglicher_ferientag(beweglicher_ferientag)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_beweglicher_ferientag(%BeweglicherFerientag{} = beweglicher_ferientag) do
+    Repo.delete(beweglicher_ferientag)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking beweglicher_ferientag changes.
+
+  ## Examples
+
+      iex> change_beweglicher_ferientag(beweglicher_ferientag)
+      %Ecto.Changeset{source: %BeweglicherFerientag{}}
+
+  """
+  def change_beweglicher_ferientag(%BeweglicherFerientag{} = beweglicher_ferientag) do
+    BeweglicherFerientag.changeset(beweglicher_ferientag, %{})
+  end
 end

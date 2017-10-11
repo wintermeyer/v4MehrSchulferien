@@ -1,0 +1,13 @@
+<h2>Show Beweglicher ferientag</h2>
+
+<ul>
+
+  <li>
+    <strong>Value:</strong>
+    <%= @beweglicher_ferientag.value %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: beweglicher_ferientag_path(@conn, :edit, @beweglicher_ferientag) %></span>
+<span><%= link "Back", to: beweglicher_ferientag_path(@conn, :index) %></span>

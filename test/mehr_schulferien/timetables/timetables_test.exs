@@ -326,4 +326,64 @@ defmodule MehrSchulferien.TimetablesTest do
       assert %Ecto.Changeset{} = Timetables.change_slot(slot)
     end
   end
+
+  describe "bewegliche_ferientage" do
+    alias MehrSchulferien.Timetables.BeweglicherFerientag
+
+    @valid_attrs %{value: 42}
+    @update_attrs %{value: 43}
+    @invalid_attrs %{value: nil}
+
+    def beweglicher_ferientag_fixture(attrs \\ %{}) do
+      {:ok, beweglicher_ferientag} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Timetables.create_beweglicher_ferientag()
+
+      beweglicher_ferientag
+    end
+
+    test "list_bewegliche_ferientage/0 returns all bewegliche_ferientage" do
+      beweglicher_ferientag = beweglicher_ferientag_fixture()
+      assert Timetables.list_bewegliche_ferientage() == [beweglicher_ferientag]
+    end
+
+    test "get_beweglicher_ferientag!/1 returns the beweglicher_ferientag with given id" do
+      beweglicher_ferientag = beweglicher_ferientag_fixture()
+      assert Timetables.get_beweglicher_ferientag!(beweglicher_ferientag.id) == beweglicher_ferientag
+    end
+
+    test "create_beweglicher_ferientag/1 with valid data creates a beweglicher_ferientag" do
+      assert {:ok, %BeweglicherFerientag{} = beweglicher_ferientag} = Timetables.create_beweglicher_ferientag(@valid_attrs)
+      assert beweglicher_ferientag.value == 42
+    end
+
+    test "create_beweglicher_ferientag/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Timetables.create_beweglicher_ferientag(@invalid_attrs)
+    end
+
+    test "update_beweglicher_ferientag/2 with valid data updates the beweglicher_ferientag" do
+      beweglicher_ferientag = beweglicher_ferientag_fixture()
+      assert {:ok, beweglicher_ferientag} = Timetables.update_beweglicher_ferientag(beweglicher_ferientag, @update_attrs)
+      assert %BeweglicherFerientag{} = beweglicher_ferientag
+      assert beweglicher_ferientag.value == 43
+    end
+
+    test "update_beweglicher_ferientag/2 with invalid data returns error changeset" do
+      beweglicher_ferientag = beweglicher_ferientag_fixture()
+      assert {:error, %Ecto.Changeset{}} = Timetables.update_beweglicher_ferientag(beweglicher_ferientag, @invalid_attrs)
+      assert beweglicher_ferientag == Timetables.get_beweglicher_ferientag!(beweglicher_ferientag.id)
+    end
+
+    test "delete_beweglicher_ferientag/1 deletes the beweglicher_ferientag" do
+      beweglicher_ferientag = beweglicher_ferientag_fixture()
+      assert {:ok, %BeweglicherFerientag{}} = Timetables.delete_beweglicher_ferientag(beweglicher_ferientag)
+      assert_raise Ecto.NoResultsError, fn -> Timetables.get_beweglicher_ferientag!(beweglicher_ferientag.id) end
+    end
+
+    test "change_beweglicher_ferientag/1 returns a beweglicher_ferientag changeset" do
+      beweglicher_ferientag = beweglicher_ferientag_fixture()
+      assert %Ecto.Changeset{} = Timetables.change_beweglicher_ferientag(beweglicher_ferientag)
+    end
+  end
 end
