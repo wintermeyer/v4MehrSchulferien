@@ -25,43 +25,7 @@
           <div class="row">
             <%= for month <- three_months do %>
               <div class="col-md-4">
-                <div class="row">
-                  <div class="col-xs-8">
-                    <h3><%= Enum.at(["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "Novermber", "Dezember"],List.first(List.last(month[:month])).value.month - 1) %></h3>
-                  </div>
-                  <div class="col-xs-4">
-                    <h3 class="text-muted"><%= List.first(List.last(month[:month])).value.year %></h3>
-                  </div>
-                </div>
-                <table class="table table-condensed">
-                  <thead>
-                    <tr>
-                      <th>Mo.</th>
-                      <th>Di.</th>
-                      <th>Mi.</th>
-                      <th>Do.</th>
-                      <th>Fr.</th>
-                      <th class="active">Sa.</th>
-                      <th class="active">So.</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <%= for week <- month[:month] do %>
-                      <tr>
-                        <%= for day <- week do %>
-                          <%= if day == {} do %>
-                            <td></td>
-                          <% else %>
-                            <td class="text-right <%= day[:css_class] %>">
-                              <%= day[:value].day %>.
-                            </td>
-                          <% end %>
-                        <% end %>
-                     </tr>
-                    <% end %>
-                  </tbody>
-                </table>
-                <%= render MehrSchulferienWeb.YearView, "_overview_of_monthly_periods.html", month: month %>
+                <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month %>
               </div>
             <% end %>
           </div>
