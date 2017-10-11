@@ -24,11 +24,16 @@
     </div> <!-- /container -->
 
     <footer>
+      <hr />
       <div class="col-xs-6">
-        LEFT SIDE
+        <p>
+          Copyright by Stefan Wintermeyer
+        </p>
       </div>
       <div class="col-xs-6">
-        RIGHT SIDE
+        <p class="pull-right">
+          <a href="https://www.wintermeyer-consulting.de">Wintermeyer Consulting</a>
+        </p>
       </div>
     </footer>
 
