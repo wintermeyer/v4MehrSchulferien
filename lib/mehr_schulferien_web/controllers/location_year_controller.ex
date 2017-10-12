@@ -5,6 +5,7 @@ defmodule MehrSchulferienWeb.LocationYearController do
   alias MehrSchulferien.Timetables
   alias MehrSchulferien.Locations
   alias MehrSchulferien.Locations.City
+  alias MehrSchulferien.Locations.School
   alias MehrSchulferien.Timetables.Year
   import Ecto.Query
 
@@ -29,6 +30,13 @@ defmodule MehrSchulferienWeb.LocationYearController do
       {zip_code, name, slug, school_count}
     end
 
+    # TODO: get the schools with preload when fetching federal_state
+    query = from schools in School,
+            where: schools.federal_state_id == ^federal_state.id,
+            order_by: schools.name,
+            select: {schools.address_zip_code, schools.name, schools.slug, schools.address_city}
+    schools = Repo.all(query)
+
     query = from bewegliche_ferientage in Timetables.BeweglicherFerientag,
             where: bewegliche_ferientage.federal_state_id == ^federal_state.id and
             bewegliche_ferientage.year_id == ^year.id
@@ -43,7 +51,8 @@ defmodule MehrSchulferienWeb.LocationYearController do
                                          federal_state: federal_state,
                                          cities: cities,
                                          months: months,
-                                         bewegliche_ferientage: bewegliche_ferientage)
+                                         bewegliche_ferientage: bewegliche_ferientage,
+                                         schools: schools)
   end
 
 end

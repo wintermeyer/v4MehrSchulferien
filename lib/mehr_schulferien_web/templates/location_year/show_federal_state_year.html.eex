@@ -59,3 +59,5 @@
 </div>
 
 <%= render MehrSchulferienWeb.LocationYearView, "_list_of_cities.html", cities: @cities, federal_state: @federal_state, year: @year %>
+
+<%= render MehrSchulferienWeb.LocationYearView, "_list_of_schools.html", schools: @schools, federal_state: @federal_state, year: @year, bewegliche_ferientage: @bewegliche_ferientage %>
