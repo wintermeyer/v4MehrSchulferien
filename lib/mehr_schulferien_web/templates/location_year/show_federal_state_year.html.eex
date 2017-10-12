@@ -29,13 +29,15 @@
   <div class="col-sm-9">
     <div class="row hidden-sm">
       <div class="col-xs-12">
-        <p class="visible-xs-* hidden-sm hidden-md hidden-lg">
-          <small><%= @bewegliche_ferientage.value %> beweglichen Ferientage
-          werden auf den jeweiligen Schulseiten dargestellt. Am
-          Ende dieser Seite finden Sie eine <a href="#schools">Liste aller
-          Schulen</a> und eine <a href="#cities">Liste alle Städte in
-          <%= @federal_state.name %>.</a></small>
-        </p>
+        <%= unless @bewegliche_ferientage == nil do %>
+          <p class="visible-xs-* hidden-sm hidden-md hidden-lg">
+            <small><%= @bewegliche_ferientage.value %> beweglichen Ferientage
+            werden auf den jeweiligen Schulseiten dargestellt. Am
+            Ende dieser Seite finden Sie eine <a href="#schools">Liste aller
+            Schulen</a> und eine <a href="#cities">Liste alle Städte in
+            <%= @federal_state.name %>.</a></small>
+          </p>
+        <% end %>
         <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 3 %>
       </div>
     </div>
