@@ -41,7 +41,7 @@ defmodule MehrSchulferienWeb.Router do
     # nested routes
     #
     resources "/federal_states", FederalStateController, only: [:show] do
-      resources "/years", YearController, only: [:show]
+      resources "/years", LocationYearController, only: [:show]
     end
   end
 
