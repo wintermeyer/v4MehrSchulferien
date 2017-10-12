@@ -18,22 +18,29 @@
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
-    </div> <!-- /container -->
 
-    <footer>
-      <hr />
-      <div class="col-xs-6">
-        <p>
-          Copyright by Stefan Wintermeyer
-        </p>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>Alle Angaben ohne Gewähr.</p>
+        <hr />
       </div>
-      <div class="col-xs-6">
-        <p class="pull-right">
-          <a href="https://www.wintermeyer-consulting.de">Wintermeyer Consulting</a>
-        </p>
+    </div>
+    <footer>
+      <div class="row">
+        <div class="col-xs-6">
+          <p>
+            Copyright by Stefan Wintermeyer
+          </p>
+        </div>
+        <div class="col-xs-6">
+          <p class="pull-right">
+            <a href="https://www.wintermeyer-consulting.de">Wintermeyer Consulting</a>
+          </p>
+        </div>
       </div>
     </footer>
+  </div> <!-- /container -->
 
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <!-- <script src="<%= static_path(@conn, "/js/app.js") %>"></script> -->
   </body>
 </html>
