@@ -35,6 +35,7 @@ defmodule MehrSchulferienWeb.YearController do
     federal_state = Locations.get_federal_state!(federal_state_id)
     country = Locations.get_country!(federal_state.country_id)
 
+    # TODO: get the cities with preload when fetching federal_state
     query = from cities in City,
             where: cities.federal_state_id == ^federal_state.id,
             left_join: schools in Locations.School,
@@ -53,6 +54,11 @@ defmodule MehrSchulferienWeb.YearController do
       end
     end
 
+    query = from bewegliche_ferientage in Timetables.BeweglicherFerientag,
+            where: bewegliche_ferientage.federal_state_id == ^federal_state.id and
+            bewegliche_ferientage.year_id == ^year.id
+    bewegliche_ferientage = Repo.one(query)
+
     {:ok, starts_on} = Date.from_erl({year.value, 1, 1})
     {:ok, ends_on} = Date.from_erl({year.value, 12, 31})
 
@@ -61,7 +67,8 @@ defmodule MehrSchulferienWeb.YearController do
     render(conn, "show-timeperiod.html", year: year,
                                          federal_state: federal_state,
                                          cities: cities,
-                                         months: months)
+                                         months: months,
+                                         bewegliche_ferientage: bewegliche_ferientage)
   end
 
   def show(conn, %{"id" => id}) do
