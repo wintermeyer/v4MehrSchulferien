@@ -11,7 +11,7 @@
     </script>
   </div>
 </div>
-<div class="row visible-xs-* visible-sm-*">
+<div class="row visible-xs-* visible-sm-* hidden-md hidden-lg">
   <div class="col-xs-12">
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <!-- Large Mobile Banner für mehr-schulferien.de -->
