@@ -18,17 +18,9 @@ defmodule MehrSchulferienWeb.LocationYearController do
     # TODO: get the cities with preload when fetching federal_state
     query = from cities in City,
             where: cities.federal_state_id == ^federal_state.id,
-            left_join: schools in Locations.School,
-            on: schools.city_id == cities.id,
-            group_by: cities.id,
             order_by: [cities.name, cities.zip_code],
-            select: {cities.name, cities.zip_code, cities.slug, count(schools.id)}
-    raw_cities = Repo.all(query)
-
-    cities = for city <- raw_cities do
-      {name, zip_code, slug, school_count} = city
-      {zip_code, name, slug, school_count}
-    end
+            select: {cities.zip_code, cities.name, cities.slug}
+    cities = Repo.all(query)
 
     # TODO: get the schools with preload when fetching federal_state
     query = from schools in School,
