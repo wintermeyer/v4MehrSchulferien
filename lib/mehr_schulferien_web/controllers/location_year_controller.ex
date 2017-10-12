@@ -9,7 +9,8 @@ defmodule MehrSchulferienWeb.LocationYearController do
   alias MehrSchulferien.Timetables.Year
   import Ecto.Query
 
-
+  # /federal_states/:federal_state_id/years/:id
+  #
   def show(conn, %{"id" => id, "federal_state_id" => federal_state_id}) do
     year = Timetables.get_year!(id)
     federal_state = Locations.get_federal_state!(federal_state_id)
@@ -45,6 +46,33 @@ defmodule MehrSchulferienWeb.LocationYearController do
                                          months: months,
                                          bewegliche_ferientage: bewegliche_ferientage,
                                          schools: schools)
+  end
+
+  # /schools/:school_id/years/:id
+  #
+  def show(conn, %{"id" => id, "school_id" => school_id}) do
+    year = Timetables.get_year!(id)
+    school = Locations.get_school!(school_id)
+    city = Locations.get_city!(school.city_id)
+    federal_state = Locations.get_federal_state!(school.federal_state_id)
+    country = Locations.get_country!(school.country_id)
+
+    query = from bewegliche_ferientage in Timetables.BeweglicherFerientag,
+            where: bewegliche_ferientage.federal_state_id == ^federal_state.id and
+            bewegliche_ferientage.year_id == ^year.id
+    bewegliche_ferientage = Repo.one(query)
+
+    {:ok, starts_on} = Date.from_erl({year.value, 1, 1})
+    {:ok, ends_on} = Date.from_erl({year.value, 12, 31})
+
+    months = MehrSchulferien.Collect.calendar_ready_months([school, city, federal_state, country], starts_on, ends_on)
+
+    render(conn, "show_school_year.html", school: school,
+                                          year: year,
+                                          city: city,
+                                          federal_state: federal_state,
+                                          months: months,
+                                          bewegliche_ferientage: bewegliche_ferientage)
   end
 
 end

@@ -194,5 +194,5 @@ for {name, date} <- [{"Reformationstag", ~D[2017-10-30]}, {"Fastnacht", ~D[2018-
 {"Fastnacht", ~D[2018-02-12]}, {"Fastnacht", ~D[2018-02-13]},
 {"Himmelfahrt", ~D[2018-05-11]}, {"Fronleichnam", ~D[2018-06-01]}] do
   Timetables.create_period(%{category: "Beweglicher Ferientag",
-  school_id: school.id, starts_on: date, ends_on: date, name: name})
+  school_id: school.id, starts_on: date, ends_on: date, name: name, religion_id: keine_religion.id})
 end

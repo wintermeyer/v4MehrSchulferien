@@ -1,0 +1,86 @@
+<ol class="breadcrumb">
+  <li class="hidden-xs"><a href="/countries/<%= @federal_state.country_id %>">Deutschland</a></li>
+  <li><a href="/federal_states/<%= @federal_state.slug %>"><%= @federal_state.name %></a></li>
+  <li><a href="/cities/<%= @city.slug %>"><%= @city.name %></a></li>
+  <li class="active"><%= @year.value %></li>
+</ol>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>
+        <%= @school.name %>
+      </h1>
+    </div>
+    <div class="col-md-4">
+      <%= render MehrSchulferienWeb.SharedView, "_large_mobile_banner_ad.html" %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-9">
+    <div class="row hidden-sm">
+      <div class="col-xs-12">
+        <%= unless @bewegliche_ferientage == nil do %>
+          <p class="visible-xs-* hidden-sm hidden-md hidden-lg">
+            <small><%= @bewegliche_ferientage.value %> beweglichen Ferientage
+            werden auf den jeweiligen Schulseiten dargestellt. Am
+            Ende dieser Seite finden Sie eine <a href="#schools">Liste aller
+            Schulen</a> und eine <a href="#cities">Liste alle Städte in
+            <%= @federal_state.name %>.</a></small>
+          </p>
+        <% end %>
+        <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 3 %>
+      </div>
+    </div>
+    <div class="row visible-sm-* hidden-xs hidden-md hidden-lg">
+      <div class="col-xs-12">
+        <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 2 %>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="panel panel-default hidden-xs">
+      <div class="panel-heading">
+        <h3 class="panel-title">Kontaktdaten</h3>
+      </div>
+      <div class="panel-body">
+        <address>
+          <strong><%= @school.address_line1 %></strong><br>
+          <%= unless @school.address_line2 == nil do %>
+          <%= @school.address_line2 %><br>
+          <% end %>
+          <%= unless @school.address_street == nil do %>
+          <%= @school.address_street %><br>
+          <% end %>
+          <%= @school.address_zip_code %> <%= @school.address_city %>
+        </address>
+
+        <address style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <%= unless @school.phone_number == nil do %>
+          <strong>Telefonnummer:</strong><br>
+          <a href="tel:<%= @school.phone_number %>"><%= @school.phone_number %></a><br>
+        <% end %>
+        <%= unless @school.fax_number == nil do %>
+          <strong>Fax:</strong><br>
+          <a href="tel:<%= @school.fax_number %>"><%= @school.fax_number %></a><br>
+        <% end %>
+        <%= unless @school.email_address == nil do %>
+          <strong>E-Mail:</strong><br>
+          <a href="mailto:<%= @school.email_address %>"><%= @school.email_address %></a><br>
+        <% end %>
+        <%= unless @school.homepage_url == nil do %>
+          <strong>Homepage:</strong><br>
+          <a href="<%= @school.homepage_url %>"><%= @school.homepage_url |> String.replace(~r/htt[ps]*:\/\//, "") |> String.replace(~r/^www./, "") %></a>
+        <% end %>
+        </address>
+        <p>
+          <a href="<%= URI.encode("https://maps.google.com/maps?q=" <> @school.address_street <> "," <> @school.address_zip_code <> " " <> @school.address_city) %>">
+            <img src="<%= URI.encode("https://maps.googleapis.com/maps/api/staticmap?center=" <> @school.address_street <> "," <> @school.address_zip_code <> " " <> @school.address_city) <> "&markers=color:blue%7Clabel:S%7C" <> @school.address_street <> "," <> @school.address_zip_code <> " " <> @school.address_city <> "&zoom=12&size=180x180&sensor=false" %>" alt="Google Maps Landkarte mit der Position dieser Schule" class="img-thumbnail" width="180" height="180">
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

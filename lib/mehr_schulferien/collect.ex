@@ -21,6 +21,7 @@ defmodule MehrSchulferien.Collect do
            |> convert_to_maps
            |> inject_summary_list_by_category("Schulferien", :school_vacation_periods)
            |> inject_summary_list_by_category("Gesetzlicher Feiertag", :bank_holiday_periods)
+           |> inject_summary_list_by_category("Beweglicher Ferientag", :beweglicher_ferientag_periods)
   end
 
   def chunk_days_to_months(days) do
@@ -148,7 +149,7 @@ defmodule MehrSchulferien.Collect do
              Enum.member?(categories, "Wochenende"),
              Enum.member?(categories, "Schulferien"),
              Enum.member?(categories, "Gesetzlicher Feiertag"),
-             Enum.member?(categories, "Religiöser Feiertag")
+             Enum.member?(categories, "Religiöser Feiertag") or Enum.member?(categories, "Beweglicher Ferientag")
            } do
         # I just use the default TwitterBootstrap class names. No judgement.
         #

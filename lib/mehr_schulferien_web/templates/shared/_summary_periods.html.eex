@@ -56,3 +56,12 @@
     <% end %>
   <% end %>
 <% end %>
+
+<%= if length(@month[:beweglicher_ferientag_periods]) > 0 do %>
+  <div class="row">
+    <div class="col-xs-12">
+      <h4>Bewegliche Ferientage</h4>
+      <%= render MehrSchulferienWeb.SharedView, "_dl_of_periods.html", periods: @month[:beweglicher_ferientag_periods], label_class: "label-warning" %>
+    </div>
+  </div>
+<% end %>
