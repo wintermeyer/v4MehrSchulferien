@@ -27,13 +27,6 @@ defmodule MehrSchulferienWeb.LocationYearController do
     cities = for city <- raw_cities do
       {name, zip_code, slug, school_count} = city
       {zip_code, name, slug, school_count}
-
-      # {name, zip_code, slug, school_count} = city
-      # case school_count do
-      #   x when x > 0 ->
-      #     {zip_code <> " " <> name <> " (" <> Integer.to_string(school_count) <> ")", slug}
-      #   _ -> nil
-      # end
     end
 
     query = from bewegliche_ferientage in Timetables.BeweglicherFerientag,
