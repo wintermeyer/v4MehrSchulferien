@@ -1,0 +1,24 @@
+<% divider = round (12/@month_per_row) %>
+<% [head|tail] = Enum.chunk_every(@months,@month_per_row) %>
+
+<%= for three_months <- [head] do %>
+  <div class="row">
+    <%= for month <- three_months do %>
+      <div class="col-sm-<%= divider %>">
+        <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render MehrSchulferienWeb.SharedView, "_leaderboard_ad.html" %>
+
+<%= for three_months <- tail do %>
+  <div class="row">
+    <%= for month <- three_months do %>
+      <div class="col-sm-<%= divider %>">
+        <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

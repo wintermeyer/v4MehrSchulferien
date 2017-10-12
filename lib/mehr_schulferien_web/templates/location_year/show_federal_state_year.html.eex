@@ -27,56 +27,14 @@
 
 <div class="row">
   <div class="col-sm-9">
-    <div class="row">
-      <div class="col-md-12">
-        <% [head|tail] = Enum.chunk_every(@months,3) %>
-
-        <%= for three_months <- [head] do %>
-          <div class="row">
-            <%= for month <- three_months do %>
-              <div class="col-md-4">
-                <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month %>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-
-        <div class="row hidden-xs">
-          <div class="col-xs-12">
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- Leaderboard für mehr-schulferien.de -->
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:728px;height:90px"
-                 data-ad-client="ca-pub-9538764634478220"
-                 data-ad-slot="6089333349"></ins>
-            <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          </div>
-        </div>
-        <div class="row visible-xs-*">
-          <div class="col-xs-12">
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- Large Mobile Banner für mehr-schulferien.de -->
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:320px;height:100px"
-                 data-ad-client="ca-pub-9538764634478220"
-                 data-ad-slot="6498134715"></ins>
-            <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          </div>
-        </div>
-
-        <%= for three_months <- tail do %>
-          <div class="row">
-            <%= for month <- three_months do %>
-              <div class="col-md-4">
-                <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month %>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
+    <div class="row hidden-sm">
+      <div class="col-xs-12">
+        <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 3 %>
+      </div>
+    </div>
+    <div class="row visible-sm-*">
+      <div class="col-xs-12">
+        <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 2 %>
       </div>
     </div>
   </div>
