@@ -58,13 +58,4 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-12">
-    <h1 id="cities">Städte in <%= @federal_state.name %></h1>
-    <p>
-      <%= for {name, slug} <- @cities do %>
-        <a href="/cities/<%= slug %>"><%= name %></a>,
-      <% end %>
-    </p>
-  </div>
-</div>
+<%= render MehrSchulferienWeb.LocationYearView, "_list_of_cities.html", cities: @cities, federal_state: @federal_state, year: @year %>

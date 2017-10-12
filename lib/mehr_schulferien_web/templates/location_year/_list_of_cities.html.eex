@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1 id="cities">Städte in <%= @federal_state.name %></h1>
+    <p>Die folgenden <%= length @cities %> Städte haben eine eigene Seite mit weiteren Informationen (u.a. eine Liste der dortigen Schulen).</p>
+    <%= for p1 <- 0..9 do %>
+      <%= for p2 <- 0..9 do %>
+        <% {:ok, regex} = Regex.compile("^" <> Integer.to_string(p1) <> Integer.to_string(p2) <> "[0-9]{3}$") %>
+        <% displayed_cities = Enum.filter(@cities, fn(x) -> Regex.match?(regex, List.first(Tuple.to_list(x))) end) %>
+        <%= if length(displayed_cities) > 0 do %>
+          <h2><%= Integer.to_string(p1) <> Integer.to_string(p2) %>xxx</h2>
+          <%= for {zip_code, name, slug, school_count} <- displayed_cities do %>
+            <a href="/cities/<%= slug %>/years/<%= @year.slug %>"><%= name %> (<%= zip_code %>)</a><%= unless {zip_code, name, slug, school_count} == List.last(displayed_cities) do %>,<% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
