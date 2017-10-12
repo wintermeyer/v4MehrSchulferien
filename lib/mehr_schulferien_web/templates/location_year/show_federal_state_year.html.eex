@@ -47,13 +47,17 @@
   </div>
   <div class="col-sm-3">
     <%= unless @bewegliche_ferientage == nil do %>
-      <h3 class="hidden-xs">Bewegliche Ferientage</h3>
-      <p class="hidden-xs">
-        <%= @bewegliche_ferientage.value %> beweglichen Ferientage
-        werden auf den jeweiligen Schulseiten dargestellt. Am
-        Ende dieser Seite finden Sie eine <a href="#schools">Liste aller Schulen</a>
-        und eine <a href="#cities">Liste alle Städte in <%= @federal_state.name %>.</a>
-      </p>
+      <div class="panel panel-default hidden-xs">
+        <div class="panel-heading">
+          <h3 class="panel-title">Bewegliche Ferientage</h3>
+        </div>
+        <div class="panel-body">
+          <%= @bewegliche_ferientage.value %> beweglichen Ferientage
+          werden auf den jeweiligen Schulseiten dargestellt. Am
+          Ende dieser Seite finden Sie eine <a href="#schools">Liste aller Schulen</a>
+          und eine <a href="#cities">Liste alle Städte</a> in <%= @federal_state.name %>.
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
