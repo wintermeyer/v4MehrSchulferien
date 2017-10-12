@@ -177,11 +177,22 @@ years = [
         {schleswigholstein, 1}, {thueringen, 2}]},
         {2019, [{badenwuerttemberg, 5}, {brandenburg, 2}, {hessen, 4}, {mecklenburgvorpommern, 3},
         {nordrheinwestfalen, 4}, {rheinlandpfalz, 6}, {saarland, 1}, {sachsen, 1}, {sachsenanhalt, 1},
-        {schleswigholstein, 2}, {thueringen, 2}]},       
+        {schleswigholstein, 2}, {thueringen, 2}]},
         ]
 for {year_slug, bewegliche_ferientage} <- years do
   year = Timetables.get_year!(year_slug)
   for {federal_state, value} <- bewegliche_ferientage do
     Timetables.create_beweglicher_ferientag(%{federal_state_id: federal_state.id, year_id: year.id, value: value})
   end
+end
+
+# Bewegliche Ferientage
+#
+school = Locations.get_school!("56068-grundschule-schenkendorf-koblenz")
+
+for {name, date} <- [{"Reformationstag", ~D[2017-10-30]}, {"Fastnacht", ~D[2018-02-09]},
+{"Fastnacht", ~D[2018-02-12]}, {"Fastnacht", ~D[2018-02-13]},
+{"Himmelfahrt", ~D[2018-05-11]}, {"Fronleichnam", ~D[2018-06-01]}] do
+  Timetables.create_period(%{category: "Beweglicher Ferientag",
+  school_id: school.id, starts_on: date, ends_on: date, name: name})
 end
