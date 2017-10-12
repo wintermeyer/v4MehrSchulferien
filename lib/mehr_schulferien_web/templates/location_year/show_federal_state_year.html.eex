@@ -29,6 +29,13 @@
   <div class="col-sm-9">
     <div class="row hidden-sm">
       <div class="col-xs-12">
+        <p class="visible-xs-* hidden-sm hidden-md hidden-lg">
+          <small><%= @bewegliche_ferientage.value %> beweglichen Ferientage
+          werden auf den jeweiligen Schulseiten dargestellt. Am
+          Ende dieser Seite finden Sie eine <a href="#schools">Liste aller
+          Schulen</a> und eine <a href="#cities">Liste alle Städte in
+          <%= @federal_state.name %>.</a></small>
+        </p>
         <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 3 %>
       </div>
     </div>
@@ -39,21 +46,25 @@
     </div>
   </div>
   <div class="col-sm-3">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Bewegliche Ferientage</h3>
-      </div>
-      <div class="panel-body">
-        <p>
-          Bewegliche Ferientage auf den Seiten der einzelnen Schulen angezeigt.
-          Eine Liste der Schulen finden Sie auf den Seiten der Städte:
-        </p>
-        <ul>
-          <%= for {name, slug} <- @cities do %>
-            <li><a href="/cities/<%= slug %>"><%= name %></a></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
+    <%= unless @bewegliche_ferientage == nil do %>
+      <h3 class="hidden-xs">Bewegliche Ferientage</h3>
+      <p class="hidden-xs">
+        <%= @bewegliche_ferientage.value %> beweglichen Ferientage
+        werden auf den jeweiligen Schulseiten dargestellt. Am
+        Ende dieser Seite finden Sie eine <a href="#schools">Liste aller Schulen</a>
+        und eine <a href="#cities">Liste alle Städte in <%= @federal_state.name %>.</a>
+      </p>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h1 id="cities">Städte in <%= @federal_state.name %></h1>
+    <p>
+      <%= for {name, slug} <- @cities do %>
+        <a href="/cities/<%= slug %>"><%= name %></a>,
+      <% end %>
+    </p>
   </div>
 </div>
