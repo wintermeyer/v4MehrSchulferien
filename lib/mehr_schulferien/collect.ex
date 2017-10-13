@@ -149,15 +149,17 @@ defmodule MehrSchulferien.Collect do
              Enum.member?(categories, "Wochenende"),
              Enum.member?(categories, "Schulferien"),
              Enum.member?(categories, "Gesetzlicher Feiertag"),
-             Enum.member?(categories, "Religiöser Feiertag") or Enum.member?(categories, "Beweglicher Ferientag")
+             Enum.member?(categories, "Beweglicher Ferientag"),
+             Enum.member?(categories, "Religiöser Feiertag")
            } do
         # I just use the default TwitterBootstrap class names. No judgement.
         #
-        {_, _, _, true} -> "warning"
-        {_, _, true, _} -> "info"
-        {_, true, _, _} -> "success"
-        {true, _, _, _} -> "active"
-        {_, _, _, _} -> ""
+        {_, _, _, _, true} -> "danger"
+        {_, _, _, true, _} -> "warning"
+        {_, _, true, _, _} -> "info"
+        {_, true, _, _, _} -> "success"
+        {true, _, _, _, _} -> "active"
+        {_, _, _, _, _} -> ""
       end
 
       Map.put_new(day, :css_class, css_class)
