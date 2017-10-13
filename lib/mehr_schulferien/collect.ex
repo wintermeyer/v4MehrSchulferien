@@ -92,6 +92,14 @@ defmodule MehrSchulferien.Collect do
     school_ids = for %MehrSchulferien.Locations.School{id: id} <- locations, do: id
     religion_ids = for %MehrSchulferien.Users.Religion{id: id} <- religions, do: id
 
+    unless includes_bewegliche_ferientage?(locations, starts_on, ends_on) do
+      nearby_schools = for %MehrSchulferien.Locations.School{id: id} <- locations do
+        Locations.nearby_schools(Locations.get_school!(id))
+      end |> List.flatten
+
+      school_ids = for %MehrSchulferien.Locations.School{id: id} <- (locations ++ nearby_schools), do: id
+    end
+
     query = from(
                 days in Day,
                 left_join: slots in Slot,
@@ -112,7 +120,7 @@ defmodule MehrSchulferien.Collect do
                 left_join: school in School,
                 on:  periods.school_id == school.id,
                 where: days.value >= ^starts_on and
-                      days.value <= ^ends_on,
+                       days.value <= ^ends_on,
                 order_by: days.value,
                 select: {map(days, [:value, :value, :weekday]),
                         map(periods, [:id, :name, :slug, :category, :starts_on, :ends_on]),
@@ -123,6 +131,32 @@ defmodule MehrSchulferien.Collect do
                       }
                 )
     Repo.all(query) |> Enum.uniq
+  end
+
+  def includes_bewegliche_ferientage?(locations \\ [], starts_on \\ nil, ends_on \\ nil) do
+    {starts_on, ends_on} = current_year_if_nil(starts_on, ends_on)
+
+    country_ids = for %MehrSchulferien.Locations.Country{id: id} <- locations, do: id
+    federal_state_ids = for %MehrSchulferien.Locations.FederalState{id: id} <- locations, do: id
+    city_ids = for %MehrSchulferien.Locations.City{id: id} <- locations, do: id
+    school_ids = for %MehrSchulferien.Locations.School{id: id} <- locations, do: id
+
+    query = from(
+                days in Day,
+                left_join: slots in Slot,
+                on: days.id == slots.day_id,
+                left_join: periods in Period,
+                on: slots.period_id == periods.id and
+                    (periods.country_id in ^country_ids or
+                     periods.federal_state_id in ^federal_state_ids or
+                     periods.city_id in ^city_ids or
+                     periods.school_id in ^school_ids),
+                where: days.value >= ^starts_on and
+                       days.value <= ^ends_on and
+                       periods.category == "Beweglicher Ferientag",
+                select: days.id
+                )
+    length(Repo.all(query)) > 0
   end
 
   defp current_year_if_nil(starts_on, ends_on) do

@@ -68,13 +68,26 @@ defmodule MehrSchulferienWeb.LocationYearController do
     {:ok, ends_on} = Date.from_erl({year.value, 12, 31})
     months = MehrSchulferien.Collect.calendar_ready_months([school, city, federal_state, country], starts_on, ends_on)
 
+    includes_bewegliche_ferientage_of_other_schools =
+      case MehrSchulferien.Collect.includes_bewegliche_ferientage?([school]) do
+        true -> false
+        false ->
+          if bewegliche_ferientage != nil and bewegliche_ferientage.value > 0 do
+            true
+          else
+            false
+          end
+      end
+
     render(conn, "show_school_year.html", school: school,
                                           year: year,
                                           city: city,
                                           federal_state: federal_state,
                                           months: months,
                                           bewegliche_ferientage: bewegliche_ferientage,
-                                          nearby_schools: nearby_schools)
+                                          nearby_schools: nearby_schools,
+                                          includes_bewegliche_ferientage_of_other_schools: includes_bewegliche_ferientage_of_other_schools
+                                          )
   end
 
 end

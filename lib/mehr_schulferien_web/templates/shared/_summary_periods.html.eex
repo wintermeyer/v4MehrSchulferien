@@ -61,6 +61,9 @@
   <div class="row">
     <div class="col-xs-12">
       <h4>Bewegliche Ferientage</h4>
+      <%= if @includes_bewegliche_ferientage_of_other_schools do %>
+      <small>Interpolierte Daten von anderen Schulen. Siehe <a href="#bewegliche_ferientage_info">Erklärung</a>.</small>
+      <% end %>
       <%= render MehrSchulferienWeb.SharedView, "_dl_of_periods.html", periods: @month[:beweglicher_ferientag_periods], label_class: "label-warning" %>
     </div>
   </div>
