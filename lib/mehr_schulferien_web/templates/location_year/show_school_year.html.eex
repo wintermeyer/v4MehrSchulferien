@@ -9,9 +9,8 @@
 <div class="page-header">
   <div class="row">
     <div class="col-md-8">
-      <h1>
-        <%= @school.name %>
-      </h1>
+      <% {:ok, regex} = Regex.compile(@school.address_city <> "$") %>
+      <h1><%= String.replace(@school.name, regex, "") %></h1>
     </div>
     <div class="col-md-4">
       <%= render MehrSchulferienWeb.SharedView, "_large_mobile_banner_ad.html" %>
@@ -39,7 +38,7 @@
       </div>
       <div class="panel-body">
         <address>
-          <strong><%= @school.address_line1 %></strong><br>
+          <strong><%= String.replace(@school.address_line1, regex, "") %></strong><br>
           <%= unless @school.address_line2 == nil do %>
           <%= @school.address_line2 %><br>
           <% end %>
@@ -74,5 +73,21 @@
         </p>
       </div>
     </div>
+
+    <%= if length(@nearby_schools) > 0 do %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Schulen in der Nähe</h3>
+        </div>
+        <div class="panel-body">
+          <ul>
+          <%= for school <- @nearby_schools do %>
+            <% {:ok, regex} = Regex.compile(school.address_city <> "$") %>
+            <li><a href="/schools/<%= school.slug %>/years/<%= @year.slug %>"><%= String.replace(school.name, regex, "") %></a><br><small><%= school.address_street %></small></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
