@@ -1,3 +1,21 @@
+<ol class="breadcrumb">
+  <li><a href="/countries/<%= @federal_state.country_id %>">Deutschland</a></li>
+  <li class="active"><%= @federal_state.name %></li>
+</ol>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>
+        <%= @federal_state.name %>
+      </h1>
+    </div>
+    <div class="col-md-4">
+      <%= render MehrSchulferienWeb.SharedView, "_large_mobile_banner_ad.html" %>
+    </div>
+  </div>
+</div>
+
 <h2>Show Federal state</h2>
 
 <ul>
@@ -18,6 +36,3 @@
   </li>
 
 </ul>
-
-<span><%= link "Edit", to: federal_state_path(@conn, :edit, @federal_state) %></span>
-<span><%= link "Back", to: federal_state_path(@conn, :index) %></span>

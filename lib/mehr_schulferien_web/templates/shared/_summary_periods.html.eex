@@ -59,12 +59,30 @@
 
 <%= if length(@month[:beweglicher_ferientag_periods]) > 0 do %>
   <div class="row">
+  <%= if length(@month[:beweglicher_ferientag_periods]) > 1 do %>
     <div class="col-xs-12">
       <h4>Bewegliche Ferientage</h4>
       <%= if @includes_bewegliche_ferientage_of_other_schools do %>
-      <small>Interpolierte Daten von anderen Schulen. Siehe <a href="#bewegliche_ferientage_info">Erklärung</a>.</small>
+      <small><a href="#bewegliche_ferientage_info">Interpolierte Daten</a> von anderen Schulen.</small>
       <% end %>
-      <%= render MehrSchulferienWeb.SharedView, "_dl_of_periods.html", periods: @month[:beweglicher_ferientag_periods], label_class: "label-warning" %>
     </div>
+    </div>
+    <div class="row">
+    <% len = round(length(@month[:beweglicher_ferientag_periods])/2) %>
+    <% parts = Tuple.to_list(Enum.split(@month[:beweglicher_ferientag_periods], len)) %>
+    <%= for part <- parts do %>
+      <div class="col-xs-6">
+        <%= render MehrSchulferienWeb.SharedView, "_dl_of_periods.html", periods: part, label_class: "label-warning" %>
+      </div>
+    <% end %>
+  <% else %>
+      <div class="col-xs-12">
+        <h4>Bewegliche Ferientage</h4>
+        <%= if @includes_bewegliche_ferientage_of_other_schools do %>
+        <small><a href="#bewegliche_ferientage_info">Interpolierte Daten</a> von anderen Schulen.</small>
+        <% end %>
+        <%= render MehrSchulferienWeb.SharedView, "_dl_of_periods.html", periods: @month[:beweglicher_ferientag_periods], label_class: "label-warning" %>
+      </div>
+  <% end %>
   </div>
 <% end %>

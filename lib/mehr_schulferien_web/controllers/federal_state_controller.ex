@@ -27,6 +27,13 @@ defmodule MehrSchulferienWeb.FederalStateController do
 
   def show(conn, %{"id" => id}) do
     federal_state = Locations.get_federal_state!(id)
+    country = Locations.get_country!(federal_state.country_id)
+
+    {:ok, first_day_of_current_month} = Date.from_erl({DateTime.utc_now |> Map.fetch!(:year), DateTime.utc_now |> Map.fetch!(:month), 1})
+    starts_on = first_day_of_current_month
+    ends_on = Date.add(first_day_of_current_month, 360)
+    months = MehrSchulferien.Collect.calendar_ready_months([federal_state, country], starts_on, ends_on)
+
     render(conn, "show.html", federal_state: federal_state)
   end
 
