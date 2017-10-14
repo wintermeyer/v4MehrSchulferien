@@ -188,11 +188,11 @@ defmodule MehrSchulferien.Collect do
            } do
         # I just use the default TwitterBootstrap class names. No judgement.
         #
-        {_, _, _, _, true} -> "danger"
-        {_, _, _, true, _} -> "warning"
         {_, _, true, _, _} -> "info"
-        {_, true, _, _, _} -> "success"
         {true, _, _, _, _} -> "active"
+        {_, _, _, true, _} -> "warning"
+        {_, _, _, _, true} -> "danger"
+        {_, true, _, _, _} -> "success"
         {_, _, _, _, _} -> ""
       end
 
