@@ -1,5 +1,11 @@
 # MehrSchulferien
 
+## Twitter Bootstrap configuration
+
+https://getbootstrap.com/docs/3.3/customize/?id=7fa6fcc9792e2e9c75af4df34acbbdd6
+
+## Phoenix
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

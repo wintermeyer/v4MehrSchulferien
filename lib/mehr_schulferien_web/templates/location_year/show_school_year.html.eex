@@ -1,8 +1,16 @@
-<ol class="breadcrumb">
-  <li class="hidden-xs"><a href="/countries/<%= @federal_state.country_id %>">Deutschland</a></li>
-  <li class="hidden-xs"><a href="/federal_states/<%= @federal_state.slug %>"><%= @federal_state.name %></a></li>
+<ol class="breadcrumb hidden-xs">
+  <li><a href="/countries/<%= @federal_state.country_id %>">Deutschland</a></li>
+  <li><a href="/federal_states/<%= @federal_state.slug %>"><%= @federal_state.name %></a></li>
   <li><a href="/cities/<%= @city.slug %>"><%= @city.name %></a></li>
   <li><a href="/schools/<%= @school.slug %>"><%= @school.name %></a></li>
+  <li class="active"><%= @year.value %></li>
+</ol>
+
+<ol class="breadcrumb visible-xs-* hidden-sm hidden-md hidden-lg">
+  <li><a href="/countries/<%= @federal_state.country_id %>">DE</a></li>
+  <li><a href="/federal_states/<%= @federal_state.slug %>"><%= @federal_state.code %></a></li>
+  <li><a href="/cities/<%= @city.slug %>"><%= StringFormatter.truncate(@city.name, max_length: 7) %></a></li>
+  <li><a href="/schools/<%= @school.slug %>"><%= StringFormatter.truncate(@school.name, max_length: 8) %></a></li>
   <li class="active"><%= @year.value %></li>
 </ol>
 
@@ -11,6 +19,15 @@
     <div class="col-md-8">
       <% {:ok, regex} = Regex.compile(@school.address_city <> "$") %>
       <h1><%= String.replace(@school.name, regex, "") %></h1>
+      <nav aria-label="Page navigation visible-xs-* hidden-sm hidden-md hidden-lg">
+        <ul class="pagination visible-xs-* hidden-sm hidden-md hidden-lg">
+          <%= for year <- [2017, 2018, 2019] do %>
+            <li <%= if @year.value == year do %>class="active"<% end %>>
+              <a href="/schools/<%= @school.slug %>/years/<%= year %>"><%= year %></a>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
     </div>
     <div class="col-md-4">
       <%= render MehrSchulferienWeb.SharedView, "_large_mobile_banner_ad.html" %>
@@ -32,6 +49,22 @@
     </div>
   </div>
   <div class="col-sm-3">
+    <div class="panel panel-default hidden-xs">
+      <div class="panel-heading">
+        <h3 class="panel-title">Schulferien Kalendar</h3>
+      </div>
+      <div class="panel-body">
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <%= for year <- [2017, 2018, 2019] do %>
+              <li <%= if @year.value == year do %>class="active"<% end %>>
+                <a href="/schools/<%= @school.slug %>/years/<%= year %>"><%= year %></a>
+              </li>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+    </div>
     <div class="panel panel-default hidden-xs">
       <div class="panel-heading">
         <h3 class="panel-title">Kontaktdaten</h3>
