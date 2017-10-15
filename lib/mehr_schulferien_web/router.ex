@@ -47,6 +47,11 @@ defmodule MehrSchulferienWeb.Router do
     resources "/schools", SchoolController, only: [:show] do
       resources "/years", LocationYearController, only: [:show]
     end
+
+    resources "/countries", CountryController, only: [:show] do
+      resources "/cities", CountryLocationController, only: [:index]
+    end
+
   end
 
   # Other scopes may use custom stacks.

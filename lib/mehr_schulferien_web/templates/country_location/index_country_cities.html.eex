@@ -1,0 +1,38 @@
+<ol class="breadcrumb">
+  <li><a href="/countries/deutschland">Deutschland</a></li>
+  <li class="active">Städte</li>
+</ol>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>
+        Städte
+      </h1>
+    </div>
+    <div class="col-md-4">
+      <%= render MehrSchulferienWeb.SharedView, "_large_mobile_banner_ad.html" %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-9">
+    <p>Die folgenden <%= length @cities %> Städte haben eine eigene Seite mit weiteren Informationen (u.a. eine Liste der dortigen Schulen).</p>
+    <%= for p1 <- 0..9 do %>
+      <%= for p2 <- 0..9 do %>
+        <% {:ok, regex} = Regex.compile("^" <> Integer.to_string(p1) <> Integer.to_string(p2) <> "[0-9]{3}$") %>
+        <% displayed_cities = Enum.filter(@cities, fn(x) -> Regex.match?(regex, List.first(Tuple.to_list(x))) end) %>
+        <%= if length(displayed_cities) > 0 do %>
+          <h2><%= Integer.to_string(p1) <> Integer.to_string(p2) %>xxx</h2>
+          <%= for {zip_code, name, slug} <- displayed_cities do %>
+            <a href="/cities/<%= slug %>"><%= name %> (<%= zip_code %>)</a><%= unless {zip_code, name, slug} == List.last(displayed_cities) do %>,<% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <%= render MehrSchulferienWeb.FederalStateView, "_list_of_federal_states_panel.html", federal_states: @federal_states %>
+  </div>
+</div>

@@ -3,18 +3,10 @@ defmodule MehrSchulferienWeb.CityController do
 
   alias MehrSchulferien.Locations
   alias MehrSchulferien.Locations.City
-  alias MehrSchulferien.Repo
-  import Ecto.Query
 
   def index(conn, _params) do
-    query = from cities in City,
-            order_by: [cities.name, cities.zip_code],
-            select: {cities.zip_code, cities.name, cities.slug}
-    cities = Repo.all(query)
-
-    federal_states = Locations.list_federal_states
-
-    render(conn, "index.html", cities: cities, federal_states: federal_states)
+    cities = Locations.list_cities
+    render(conn, "index.html", cities: cities)
   end
 
   def new(conn, _params) do
