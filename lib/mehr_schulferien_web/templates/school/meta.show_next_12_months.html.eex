@@ -1,0 +1,2 @@
+<meta name="description" content="Ferienterminen für <%= @federal_state.name %><%= unless @bewegliche_ferientage == nil do %> und <%= @bewegliche_ferientage.value %> bewegliche Ferientage für <%= @school.name %><% end %> (<%= @year.value %>). Optional mit jüdischen und islamischen Feiertagen.">
+<title>Schulferienkalender der nächsten 12 Monate für <%= @school.name %></title>

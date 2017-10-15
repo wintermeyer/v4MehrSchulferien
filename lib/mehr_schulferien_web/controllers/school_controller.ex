@@ -1,8 +1,13 @@
 defmodule MehrSchulferienWeb.SchoolController do
   use MehrSchulferienWeb, :controller
 
+  alias MehrSchulferien.Timetables
   alias MehrSchulferien.Locations
   alias MehrSchulferien.Locations.School
+  alias MehrSchulferien.Locations.City
+  alias MehrSchulferien.Timetables.Year
+  alias MehrSchulferien.Repo
+  import Ecto.Query
 
   def index(conn, _params) do
     schools = Locations.list_schools()
@@ -26,8 +31,43 @@ defmodule MehrSchulferienWeb.SchoolController do
   end
 
   def show(conn, %{"id" => id}) do
+    year = Timetables.get_year!(DateTime.utc_now |> Map.fetch!(:year))
     school = Locations.get_school!(id)
-    render(conn, "show.html", school: school)
+    city = Locations.get_city!(school.city_id)
+    federal_state = Locations.get_federal_state!(school.federal_state_id)
+    country = Locations.get_country!(school.country_id)
+
+    query = from bewegliche_ferientage in Timetables.BeweglicherFerientag,
+            where: bewegliche_ferientage.federal_state_id == ^federal_state.id and
+            bewegliche_ferientage.year_id == ^year.id
+    bewegliche_ferientage = Repo.one(query)
+
+    nearby_schools = Locations.nearby_schools(school)
+
+    {:ok, starts_on} = Date.from_erl({year.value, DateTime.utc_now |> Map.fetch!(:month), 1})
+    ends_on = Date.add(starts_on, 360)
+    months = MehrSchulferien.Collect.calendar_ready_months([school, city, federal_state, country], starts_on, ends_on)
+
+    includes_bewegliche_ferientage_of_other_schools =
+      case MehrSchulferien.Collect.includes_bewegliche_ferientage?([school]) do
+        true -> false
+        false ->
+          if bewegliche_ferientage != nil and bewegliche_ferientage.value > 0 do
+            true
+          else
+            false
+          end
+      end
+
+    render(conn, "show_next_12_months.html", school: school,
+                                          year: year,
+                                          city: city,
+                                          federal_state: federal_state,
+                                          months: months,
+                                          bewegliche_ferientage: bewegliche_ferientage,
+                                          nearby_schools: nearby_schools,
+                                          includes_bewegliche_ferientage_of_other_schools: includes_bewegliche_ferientage_of_other_schools
+                                          )
   end
 
   def edit(conn, %{"id" => id}) do

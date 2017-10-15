@@ -1,17 +1,15 @@
 <ol class="breadcrumb hidden-xs">
   <li><a href="/countries/<%= @federal_state.country_id %>">Deutschland</a></li>
-  <li><a href="/federal_states/<%= @federal_state.slug %>/years/<%= @year.value %>"><%= @federal_state.name %></a></li>
-  <li><a href="/cities/<%= @city.slug %>/years/<%= @year.value %>"><%= @city.name %></a></li>
-  <li><a href="/schools/<%= @school.slug %>"><%= @school.name %></a></li>
-  <li class="active"><%= @year.value %></li>
+  <li><a href="/federal_states/<%= @federal_state.slug %>"><%= @federal_state.name %></a></li>
+  <li><a href="/cities/<%= @city.slug %>"><%= @city.name %></a></li>
+  <li class="active"><%= @school.name %></li>
 </ol>
 
 <ol class="breadcrumb visible-xs-* hidden-sm hidden-md hidden-lg">
   <li><a href="/countries/<%= @federal_state.country_id %>">DE</a></li>
-  <li><a href="/federal_states/<%= @federal_state.slug %>/years/<%= @year.value %>"><%= @federal_state.code %></a></li>
-  <li><a href="/cities/<%= @city.slug %>/years/<%= @year.value %>"><%= StringFormatter.truncate(@city.name, max_length: 7) %></a></li>
-  <li><a href="/schools/<%= @school.slug %>"><%= StringFormatter.truncate(@school.name, max_length: 8) %></a></li>
-  <li class="active"><%= @year.value %></li>
+  <li><a href="/federal_states/<%= @federal_state.slug %>"><%= @federal_state.code %></a></li>
+  <li><a href="/cities/<%= @city.slug %>"><%= StringFormatter.truncate(@city.name, max_length: 7) %></a></li>
+  <li class="active"><%= StringFormatter.truncate(@school.name, max_length: 8) %></li>
 </ol>
 
 <div class="page-header">
@@ -81,7 +79,7 @@
     </div>
     <% end %>
 
-    <%= render MehrSchulferienWeb.SchoolView, "_nearby_schools_panel.html", nearby_schools: @nearby_schools, year: @year %>
+    <%= render MehrSchulferienWeb.SchoolView, "_nearby_schools_panel.html", nearby_schools: @nearby_schools %>
 
   </div>
 </div>

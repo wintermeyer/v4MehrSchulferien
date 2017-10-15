@@ -1,63 +1,139 @@
-<h2>Show School</h2>
+<ol class="breadcrumb hidden-xs">
+  <li><a href="/countries/<%= @federal_state.country_id %>">Deutschland</a></li>
+  <li><a href="/federal_states/<%= @federal_state.slug %>/years/<%= @year.value %>"><%= @federal_state.name %></a></li>
+  <li><a href="/cities/<%= @city.slug %>/years/<%= @year.value %>"><%= @city.name %></a></li>
+  <li><a href="/schools/<%= @school.slug %>"><%= @school.name %></a></li>
+  <li class="active"><%= @year.value %></li>
+</ol>
 
-<ul>
+<ol class="breadcrumb visible-xs-* hidden-sm hidden-md hidden-lg">
+  <li><a href="/countries/<%= @federal_state.country_id %>">DE</a></li>
+  <li><a href="/federal_states/<%= @federal_state.slug %>/years/<%= @year.value %>"><%= @federal_state.code %></a></li>
+  <li><a href="/cities/<%= @city.slug %>/years/<%= @year.value %>"><%= StringFormatter.truncate(@city.name, max_length: 7) %></a></li>
+  <li><a href="/schools/<%= @school.slug %>"><%= StringFormatter.truncate(@school.name, max_length: 8) %></a></li>
+  <li class="active"><%= @year.value %></li>
+</ol>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @school.name %>
-  </li>
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-8">
+      <% {:ok, regex} = Regex.compile(@school.address_city <> "$") %>
+      <h1><%= String.replace(@school.name, regex, "") %></h1>
+      <nav aria-label="Page navigation visible-xs-* hidden-sm hidden-md hidden-lg">
+        <ul class="pagination visible-xs-* hidden-sm hidden-md hidden-lg">
+          <%= for year <- [2017, 2018, 2019] do %>
+            <li <%= if @year.value == year do %>class="active"<% end %>>
+              <a href="/schools/<%= @school.slug %>/years/<%= year %>"><%= year %></a>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
+    <div class="col-md-4">
+      <%= render MehrSchulferienWeb.SharedView, "_large_mobile_banner_ad.html" %>
+    </div>
+  </div>
+</div>
 
-  <li>
-    <strong>Slug:</strong>
-    <%= @school.slug %>
-  </li>
+<div class="row">
+  <div class="col-sm-9">
+    <div class="row hidden-sm">
+      <div class="col-xs-12">
+        <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 3, includes_bewegliche_ferientage_of_other_schools: @includes_bewegliche_ferientage_of_other_schools %>
+      </div>
+    </div>
+    <div class="row visible-sm-* hidden-xs hidden-md hidden-lg">
+      <div class="col-xs-12">
+        <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 2, includes_bewegliche_ferientage_of_other_schools: @includes_bewegliche_ferientage_of_other_schools %>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="panel panel-default hidden-xs">
+      <div class="panel-heading">
+        <h3 class="panel-title">Schulferien Kalender</h3>
+      </div>
+      <div class="panel-body">
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <%= for year <- [2017, 2018, 2019] do %>
+              <li <%= if @year.value == year do %>class="active"<% end %>>
+                <a href="/schools/<%= @school.slug %>/years/<%= year %>"><%= year %></a>
+              </li>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="panel panel-default hidden-xs">
+      <div class="panel-heading">
+        <h3 class="panel-title">Kontaktdaten</h3>
+      </div>
+      <div class="panel-body">
+        <address>
+          <strong><%= String.replace(@school.address_line1, regex, "") %></strong><br>
+          <%= unless @school.address_line2 == nil do %>
+          <%= @school.address_line2 %><br>
+          <% end %>
+          <%= unless @school.address_street == nil do %>
+          <%= @school.address_street %><br>
+          <% end %>
+          <%= @school.address_zip_code %> <%= @school.address_city %>
+        </address>
 
-  <li>
-    <strong>Address line1:</strong>
-    <%= @school.address_line1 %>
-  </li>
+        <address style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <%= unless @school.phone_number == nil do %>
+          <strong>Telefonnummer:</strong><br>
+          <a href="tel:<%= @school.phone_number %>"><%= @school.phone_number %></a><br>
+        <% end %>
+        <%= unless @school.fax_number == nil do %>
+          <strong>Fax:</strong><br>
+          <a href="tel:<%= @school.fax_number %>"><%= @school.fax_number %></a><br>
+        <% end %>
+        <%= unless @school.email_address == nil do %>
+          <strong>E-Mail:</strong><br>
+          <a href="mailto:<%= @school.email_address %>"><%= @school.email_address %></a><br>
+        <% end %>
+        <%= unless @school.homepage_url == nil do %>
+          <strong>Homepage:</strong><br>
+          <a href="<%= @school.homepage_url %>"><%= @school.homepage_url |> String.replace(~r/htt[ps]*:\/\//, "") |> String.replace(~r/^www./, "") %></a>
+        <% end %>
+        </address>
+        <p>
+          <a href="<%= URI.encode("https://maps.google.com/maps?q=" <> @school.address_street <> "," <> @school.address_zip_code <> " " <> @school.address_city) %>">
+            <img src="<%= URI.encode("https://maps.googleapis.com/maps/api/staticmap?center=" <> @school.address_street <> "," <> @school.address_zip_code <> " " <> @school.address_city) <> "&markers=color:blue%7Clabel:S%7C" <> @school.address_street <> "," <> @school.address_zip_code <> " " <> @school.address_city <> "&zoom=12&size=180x180&sensor=false" %>" alt="Google Maps Landkarte mit der Position dieser Schule" class="img-thumbnail" width="180" height="180">
+          </a>
+        </p>
+      </div>
+    </div>
 
-  <li>
-    <strong>Address line2:</strong>
-    <%= @school.address_line2 %>
-  </li>
+    <%= if @includes_bewegliche_ferientage_of_other_schools do %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 id="bewegliche_ferientage_info" class="panel-title">Bewegliche Ferientage</h3>
+      </div>
+      <div class="panel-body">
+        <small>Zu dieser Schule haben wir keine beweglichen Ferientage gespeichert. Da
+        aber Schulen aus einer Region oft die gleichen <span class="label label-warning">Termine</span>
+        festlegen, zeigen wir Daten aus Schulen in der Umgebung an.</small>
+      </div>
+    </div>
+    <% end %>
 
-  <li>
-    <strong>Address street:</strong>
-    <%= @school.address_street %>
-  </li>
-
-  <li>
-    <strong>Address zip code:</strong>
-    <%= @school.address_zip_code %>
-  </li>
-
-  <li>
-    <strong>Address city:</strong>
-    <%= @school.address_city %>
-  </li>
-
-  <li>
-    <strong>Email address:</strong>
-    <%= @school.email_address %>
-  </li>
-
-  <li>
-    <strong>Phone number:</strong>
-    <%= @school.phone_number %>
-  </li>
-
-  <li>
-    <strong>Fax number:</strong>
-    <%= @school.fax_number %>
-  </li>
-
-  <li>
-    <strong>Homepage url:</strong>
-    <%= @school.homepage_url %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: school_path(@conn, :edit, @school) %></span>
-<span><%= link "Back", to: school_path(@conn, :index) %></span>
+    <%= if length(@nearby_schools) > 0 do %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Schulen in der Nähe</h3>
+        </div>
+        <div class="panel-body">
+          <ul>
+          <%= for school <- @nearby_schools do %>
+            <% {:ok, regex} = Regex.compile(school.address_city <> "$") %>
+            <li><a href="/schools/<%= school.slug %>/years/<%= @year.slug %>"><%= String.replace(school.name, regex, "") %></a><br><small><%= school.address_street %></small></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
