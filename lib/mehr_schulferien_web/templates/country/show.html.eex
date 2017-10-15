@@ -1,18 +1,28 @@
-<h2>Show Country</h2>
+<ol class="breadcrumb">
+  <li class="active">Deutschland</li>
+</ol>
 
-<ul>
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>
+        <%= @country.name %>
+      </h1>
+    </div>
+    <div class="col-md-4">
+      <%= render MehrSchulferienWeb.SharedView, "_large_mobile_banner_ad.html" %>
+    </div>
+  </div>
+</div>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @country.name %>
-  </li>
+<div class="row">
+  <div class="col-sm-9">
+    <h1>test</h1>
 
-  <li>
-    <strong>Slug:</strong>
-    <%= @country.slug %>
-  </li>
+  </div>
+  <div class="col-sm-3">
 
-</ul>
+    <%= render MehrSchulferienWeb.FederalStateView, "_list_of_federal_states_panel.html", federal_states: @federal_states %>
 
-<span><%= link "Edit", to: country_path(@conn, :edit, @country) %></span>
-<span><%= link "Back", to: country_path(@conn, :index) %></span>
+  </div>
+</div>

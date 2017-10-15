@@ -1,12 +1,12 @@
 <ol class="breadcrumb hidden-xs">
-  <li><a href="/countries/<%= @federal_state.country_id %>">Deutschland</a></li>
+  <li><a href="/countries/<%= @country.slug %>">Deutschland</a></li>
   <li><a href="/federal_states/<%= @federal_state.slug %>"><%= @federal_state.name %></a></li>
   <li><a href="/cities/<%= @city.slug %>"><%= @city.name %></a></li>
   <li class="active"><%= @school.name %></li>
 </ol>
 
 <ol class="breadcrumb visible-xs-* hidden-sm hidden-md hidden-lg">
-  <li><a href="/countries/<%= @federal_state.country_id %>">DE</a></li>
+  <li><a href="/countries/<%= @country.slug %>">DE</a></li>
   <li><a href="/federal_states/<%= @federal_state.slug %>"><%= @federal_state.code %></a></li>
   <li><a href="/cities/<%= @city.slug %>"><%= StringFormatter.truncate(@city.name, max_length: 7) %></a></li>
   <li class="active"><%= StringFormatter.truncate(@school.name, max_length: 8) %></li>

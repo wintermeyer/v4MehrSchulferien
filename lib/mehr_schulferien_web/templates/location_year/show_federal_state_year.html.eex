@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-  <li><a href="/countries/<%= @federal_state.country_id %>">Deutschland</a></li>
+  <li><a href="/countries/<%= @country.slug %>">Deutschland</a></li>
   <li><a href="/federal_states/<%= @federal_state.slug %>"><%= @federal_state.name %></a></li>
   <li class="active"><%= @year.value %></li>
 </ol>

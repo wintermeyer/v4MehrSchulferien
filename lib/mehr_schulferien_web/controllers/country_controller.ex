@@ -27,7 +27,8 @@ defmodule MehrSchulferienWeb.CountryController do
 
   def show(conn, %{"id" => id}) do
     country = Locations.get_country!(id)
-    render(conn, "show.html", country: country)
+    federal_states = Locations.list_federal_states
+    render(conn, "show.html", country: country, federal_states: federal_states)
   end
 
   def edit(conn, %{"id" => id}) do

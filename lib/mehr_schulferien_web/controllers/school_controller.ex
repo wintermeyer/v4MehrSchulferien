@@ -61,6 +61,7 @@ defmodule MehrSchulferienWeb.SchoolController do
 
     render(conn, "show_next_12_months.html", school: school,
                                           year: year,
+                                          country: country,
                                           city: city,
                                           federal_state: federal_state,
                                           months: months,
