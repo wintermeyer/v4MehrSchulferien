@@ -16,6 +16,8 @@ defmodule MehrSchulferienWeb.LocationYearController do
     federal_state = Locations.get_federal_state!(federal_state_id)
     country = Locations.get_country!(federal_state.country_id)
 
+    federal_states = Locations.list_federal_states
+
     # TODO: get the cities with preload when fetching federal_state
     query = from cities in City,
             where: cities.federal_state_id == ^federal_state.id,
@@ -42,6 +44,7 @@ defmodule MehrSchulferienWeb.LocationYearController do
 
     render(conn, "show_federal_state_year.html", year: year,
                                          federal_state: federal_state,
+                                         federal_states: federal_states,
                                          cities: cities,
                                          months: months,
                                          bewegliche_ferientage: bewegliche_ferientage,
