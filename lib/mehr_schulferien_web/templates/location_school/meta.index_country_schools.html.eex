@@ -1,0 +1,2 @@
+<meta name="description" content="Liste aller <%= length @schools %> Schulen in <%= @country.name %>. Nach Postleitzahlenbereichen und Namen sortiert.">
+<title>Schulen in <%= @country.name %></title>

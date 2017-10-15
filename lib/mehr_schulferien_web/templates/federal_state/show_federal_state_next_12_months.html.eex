@@ -23,7 +23,7 @@
         <%= unless @bewegliche_ferientage == nil do %>
           <p class="visible-xs-* hidden-sm hidden-md hidden-lg">
             <small><%= @bewegliche_ferientage.value %> bewegliche Ferientage
-            werden auf den jeweiligen Schulseiten dargestellt. <a href="#schools">Liste aller
+            werden auf den jeweiligen Schulseiten dargestellt. <a href="/federal_states/<%= @federal_state.slug %>/schools">Liste aller
             Schulen</a> und eine <a href="/federal_states/<%= @federal_state.slug %>/cities">Liste alle Städte in
             <%= @federal_state.name %>.</a></small>
           </p>
@@ -45,7 +45,7 @@
         </div>
         <div class="panel-body">
           <%= @bewegliche_ferientage.value %> bewegliche Ferientage
-          werden auf den jeweiligen Schulseiten dargestellt. <a href="#schools">Liste aller
+          werden auf den jeweiligen Schulseiten dargestellt. <a href="/federal_states/<%= @federal_state.slug %>/schools">Liste aller
           Schulen</a> und eine <a href="/federal_states/<%= @federal_state.slug %>/cities">Liste alle Städte in
           <%= @federal_state.name %>.</a>
         </div>
@@ -56,5 +56,3 @@
 
   </div>
 </div>
-
-<%= render MehrSchulferienWeb.LocationYearView, "_list_of_schools.html", schools: @schools, federal_state: @federal_state, year: @year, bewegliche_ferientage: @bewegliche_ferientage %>
