@@ -17,12 +17,15 @@
 
 <div class="row">
   <div class="col-sm-9">
-    <h1>test</h1>
+    <p>Die Schulferien in Deutschland werden von den einzelnen Bundesländern
+    festgelegt. Bitte klicken Sie auf ein Bundesland oder suchen Sie in der
+    <a href="/countries/<%= @country.slug %>/cities">Liste aller Städte</a> oder
+    der <a href="/countries/<%= @country.slug %>/schools">Liste aller Schulen</a>.</p>
+
+    <%= render MehrSchulferienWeb.SharedView, "_leaderboard_ad.html" %>
 
   </div>
   <div class="col-sm-3">
-
     <%= render MehrSchulferienWeb.FederalStateView, "_list_of_federal_states_panel.html", federal_states: @federal_states %>
-
   </div>
 </div>
