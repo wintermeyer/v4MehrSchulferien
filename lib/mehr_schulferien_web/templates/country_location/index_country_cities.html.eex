@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-  <li><a href="/countries/deutschland">Deutschland</a></li>
+  <li><a href="/countries/<%= @country.slug %>"><%= @country.name %></a></li>
   <li class="active">Städte</li>
 </ol>
 
@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col-md-8">
       <h1>
-        Städte
+        Städte in <%= @country.name %>
       </h1>
     </div>
     <div class="col-md-4">

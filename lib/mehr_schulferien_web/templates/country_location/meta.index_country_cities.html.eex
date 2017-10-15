@@ -1,2 +1,2 @@
-<meta name="description" content="Liste aller Städte in Deutschland. Nach Postleitzahlenbereichen und Namen sortiert.">
-<title>Städte in Deutschland</title>
+<meta name="description" content="Liste aller Städte in <%= @country.name %>. Nach Postleitzahlenbereichen und Namen sortiert.">
+<title>Städte in <%= @country.name %></title>
