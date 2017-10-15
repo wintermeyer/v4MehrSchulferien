@@ -23,10 +23,9 @@
       <div class="col-xs-12">
         <%= unless @bewegliche_ferientage == nil do %>
           <p class="visible-xs-* hidden-sm hidden-md hidden-lg">
-            <small><%= @bewegliche_ferientage.value %> beweglichen Ferientage
-            werden auf den jeweiligen Schulseiten dargestellt. Am
-            Ende dieser Seite finden Sie eine <a href="#schools">Liste aller
-            Schulen</a> und eine <a href="#cities">Liste alle Städte in
+            <small><%= @bewegliche_ferientage.value %> bewegliche Ferientage
+            werden auf den jeweiligen Schulseiten dargestellt. <a href="#schools">Liste aller
+            Schulen</a> und eine <a href="/federal_states/<%= @federal_state.slug %>/cities">Liste alle Städte in
             <%= @federal_state.name %>.</a></small>
           </p>
         <% end %>
@@ -46,10 +45,10 @@
           <h3 class="panel-title">Bewegliche Ferientage</h3>
         </div>
         <div class="panel-body">
-          <%= @bewegliche_ferientage.value %> beweglichen Ferientage
-          werden auf den jeweiligen Schulseiten dargestellt. Am
-          Ende dieser Seite finden Sie eine <a href="#schools">Liste aller Schulen</a>
-          und eine <a href="#cities">Liste alle Städte</a> in <%= @federal_state.name %>.
+          <%= @bewegliche_ferientage.value %> bewegliche Ferientage
+          werden auf den jeweiligen Schulseiten dargestellt. <a href="#schools">Liste aller
+          Schulen</a> und eine <a href="/federal_states/<%= @federal_state.slug %>/cities">Liste alle Städte in
+          <%= @federal_state.name %>.</a>
         </div>
       </div>
     <% end %>
