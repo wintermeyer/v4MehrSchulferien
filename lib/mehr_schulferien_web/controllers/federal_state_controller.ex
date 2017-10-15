@@ -1,8 +1,15 @@
 defmodule MehrSchulferienWeb.FederalStateController do
   use MehrSchulferienWeb, :controller
 
+  alias MehrSchulferien.Repo
+  alias MehrSchulferien.Timetables
   alias MehrSchulferien.Locations
   alias MehrSchulferien.Locations.FederalState
+  alias MehrSchulferien.Locations.City
+  alias MehrSchulferien.Locations.School
+  alias MehrSchulferien.Timetables.Year
+  import Ecto.Query
+
 
   def index(conn, _params) do
     federal_states = Locations.list_federal_states()
@@ -26,15 +33,40 @@ defmodule MehrSchulferienWeb.FederalStateController do
   end
 
   def show(conn, %{"id" => id}) do
+    year = Timetables.get_year!(DateTime.utc_now |> Map.fetch!(:year))
     federal_state = Locations.get_federal_state!(id)
     country = Locations.get_country!(federal_state.country_id)
 
-    {:ok, first_day_of_current_month} = Date.from_erl({DateTime.utc_now |> Map.fetch!(:year), DateTime.utc_now |> Map.fetch!(:month), 1})
-    starts_on = first_day_of_current_month
-    ends_on = Date.add(first_day_of_current_month, 360)
+    # TODO: get the cities with preload when fetching federal_state
+    query = from cities in City,
+            where: cities.federal_state_id == ^federal_state.id,
+            order_by: [cities.name, cities.zip_code],
+            select: {cities.zip_code, cities.name, cities.slug}
+    cities = Repo.all(query)
+
+    # TODO: get the schools with preload when fetching federal_state
+    query = from schools in School,
+            where: schools.federal_state_id == ^federal_state.id,
+            order_by: schools.name,
+            select: {schools.address_zip_code, schools.name, schools.slug, schools.address_city}
+    schools = Repo.all(query)
+
+    query = from bewegliche_ferientage in Timetables.BeweglicherFerientag,
+            where: bewegliche_ferientage.federal_state_id == ^federal_state.id and
+            bewegliche_ferientage.year_id == ^year.id
+    bewegliche_ferientage = Repo.one(query)
+
+    {:ok, starts_on} = Date.from_erl({year.value, DateTime.utc_now |> Map.fetch!(:month), 1})
+    ends_on = Date.add(starts_on, 360)
+
     months = MehrSchulferien.Collect.calendar_ready_months([federal_state, country], starts_on, ends_on)
 
-    render(conn, "show.html", federal_state: federal_state)
+    render(conn, "show_federal_state_next_12_months.html", year: year,
+                                         federal_state: federal_state,
+                                         cities: cities,
+                                         months: months,
+                                         bewegliche_ferientage: bewegliche_ferientage,
+                                         schools: schools)
   end
 
   def edit(conn, %{"id" => id}) do

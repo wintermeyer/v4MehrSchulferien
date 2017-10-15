@@ -1,0 +1,60 @@
+<ol class="breadcrumb">
+  <li><a href="/countries/<%= @federal_state.country_id %>">Deutschland</a></li>
+  <li class="active"><%= @federal_state.name %></li>
+</ol>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>
+        <%= @federal_state.name %>
+      </h1>
+    </div>
+    <div class="col-md-4">
+      <%= render MehrSchulferienWeb.SharedView, "_large_mobile_banner_ad.html" %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-9">
+    <div class="row hidden-sm">
+      <div class="col-xs-12">
+        <%= unless @bewegliche_ferientage == nil do %>
+          <p class="visible-xs-* hidden-sm hidden-md hidden-lg">
+            <small><%= @bewegliche_ferientage.value %> beweglichen Ferientage
+            werden auf den jeweiligen Schulseiten dargestellt. Am
+            Ende dieser Seite finden Sie eine <a href="#schools">Liste aller
+            Schulen</a> und eine <a href="#cities">Liste alle Städte in
+            <%= @federal_state.name %>.</a></small>
+          </p>
+        <% end %>
+        <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 3 %>
+      </div>
+    </div>
+    <div class="row visible-sm-* hidden-xs hidden-md hidden-lg">
+      <div class="col-xs-12">
+        <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 2 %>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <%= unless @bewegliche_ferientage == nil do %>
+      <div class="panel panel-default hidden-xs">
+        <div class="panel-heading">
+          <h3 class="panel-title">Bewegliche Ferientage</h3>
+        </div>
+        <div class="panel-body">
+          <%= @bewegliche_ferientage.value %> beweglichen Ferientage
+          werden auf den jeweiligen Schulseiten dargestellt. Am
+          Ende dieser Seite finden Sie eine <a href="#schools">Liste aller Schulen</a>
+          und eine <a href="#cities">Liste alle Städte</a> in <%= @federal_state.name %>.
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= render MehrSchulferienWeb.LocationYearView, "_list_of_cities.html", cities: @cities, federal_state: @federal_state, year: @year %>
+
+<%= render MehrSchulferienWeb.LocationYearView, "_list_of_schools.html", schools: @schools, federal_state: @federal_state, year: @year, bewegliche_ferientage: @bewegliche_ferientage %>
