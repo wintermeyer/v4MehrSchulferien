@@ -49,7 +49,7 @@ defmodule MehrSchulferienWeb.Router do
     end
 
     resources "/countries", CountryController, only: [:show] do
-      resources "/cities", CountryLocationController, only: [:index]
+      resources "/cities", LocationCityController, only: [:index]
     end
 
   end

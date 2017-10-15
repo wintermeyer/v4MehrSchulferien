@@ -1,4 +1,4 @@
-defmodule MehrSchulferienWeb.CountryLocationController do
+defmodule MehrSchulferienWeb.LocationCityController do
   use MehrSchulferienWeb, :controller
 
   alias MehrSchulferien.Repo
