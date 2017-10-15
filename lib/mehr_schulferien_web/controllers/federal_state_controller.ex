@@ -39,20 +39,6 @@ defmodule MehrSchulferienWeb.FederalStateController do
 
     federal_states = Locations.list_federal_states
 
-    # TODO: get the cities with preload when fetching federal_state
-    query = from cities in City,
-            where: cities.federal_state_id == ^federal_state.id,
-            order_by: [cities.name, cities.zip_code],
-            select: {cities.zip_code, cities.name, cities.slug}
-    cities = Repo.all(query)
-
-    # TODO: get the schools with preload when fetching federal_state
-    query = from schools in School,
-            where: schools.federal_state_id == ^federal_state.id,
-            order_by: schools.name,
-            select: {schools.address_zip_code, schools.name, schools.slug, schools.address_city}
-    schools = Repo.all(query)
-
     query = from bewegliche_ferientage in Timetables.BeweglicherFerientag,
             where: bewegliche_ferientage.federal_state_id == ^federal_state.id and
             bewegliche_ferientage.year_id == ^year.id
@@ -66,10 +52,8 @@ defmodule MehrSchulferienWeb.FederalStateController do
     render(conn, "show_federal_state_next_12_months.html", year: year,
                                          federal_state: federal_state,
                                          federal_states: federal_states,
-                                         cities: cities,
                                          months: months,
-                                         bewegliche_ferientage: bewegliche_ferientage,
-                                         schools: schools)
+                                         bewegliche_ferientage: bewegliche_ferientage)
   end
 
   def edit(conn, %{"id" => id}) do
