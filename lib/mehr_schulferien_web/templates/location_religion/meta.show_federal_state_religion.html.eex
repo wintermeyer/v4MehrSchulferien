@@ -1,0 +1,2 @@
+<meta name="description" content="Ferienterminen und Brückentageübersicht für <%= @federal_state.name %>. Inkl. <%= unless @bewegliche_ferientage == nil do %><%= @bewegliche_ferientage.value %> beweglicher Ferientage, <% end %>gesetzlicher und <%= @religion.name %>er Feiertagen.">
+<title>Schulferienkalender der nächsten 12 Monate für <%= @federal_state.name %> inkl. <%= @religion.name %>er Feiertage</title>

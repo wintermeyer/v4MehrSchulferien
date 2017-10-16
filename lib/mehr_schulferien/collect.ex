@@ -15,13 +15,14 @@ defmodule MehrSchulferien.Collect do
     {starts_on, ends_on} = current_year_if_nil(starts_on, ends_on)
     {starts_on, ends_on} = make_sure_its_a_full_month(starts_on, ends_on)
 
-    days = render_ready_days(locations, starts_on, ends_on)
+    days = render_ready_days(locations, starts_on, ends_on, religions)
            |> chunk_days_to_months
            |> prepare_list_of_months_to_be_displayed
            |> convert_to_maps
            |> inject_summary_list_by_category("Schulferien", :school_vacation_periods)
            |> inject_summary_list_by_category("Gesetzlicher Feiertag", :bank_holiday_periods)
            |> inject_summary_list_by_category("Beweglicher Ferientag", :beweglicher_ferientag_periods)
+           |> inject_summary_list_by_category("Religiöser Feiertag", :religioeser_ferientag_periods)
   end
 
   def chunk_days_to_months(days) do
@@ -75,7 +76,7 @@ defmodule MehrSchulferien.Collect do
   end
 
   def render_ready_days(locations \\ [], starts_on \\ nil, ends_on \\ nil, religions \\ [MehrSchulferien.Users.get_religion!("keine")]) do
-    list_days(locations, starts_on, ends_on)
+    list_days(locations, starts_on, ends_on, religions)
     |> Enum.group_by(fn {date, _, _, _, _, _} -> date end, fn {_, period, country, federal_state, city, school} -> {period, country, federal_state, city, school} end)
     |> Enum.map(fn {date, periods} -> date
       |> Map.put(:periods, Enum.reject(periods, fn(x) -> x == {nil, nil, nil, nil, nil} end)) end)
@@ -204,9 +205,9 @@ defmodule MehrSchulferien.Collect do
         #
         {_, _, true, _, _} -> "info"
         {true, _, _, _, _} -> "active"
-        {_, _, _, true, _} -> "warning"
-        {_, _, _, _, true} -> "danger"
         {_, true, _, _, _} -> "success"
+        {_, _, _, _, true} -> "danger"
+        {_, _, _, true, _} -> "warning"
         {_, _, _, _, _} -> ""
       end
 
