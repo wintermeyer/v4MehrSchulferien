@@ -72,6 +72,7 @@ defmodule MehrSchulferienWeb.LocationYearController do
                                           year: year,
                                           city: city,
                                           federal_state: federal_state,
+                                          country: country,
                                           months: months,
                                           bewegliche_ferientage: bewegliche_ferientage,
                                           nearby_schools: nearby_schools,
@@ -79,4 +80,38 @@ defmodule MehrSchulferienWeb.LocationYearController do
                                           )
   end
 
+  # /cities/:city_id/years/:id
+  #
+  def show(conn, %{"id" => id, "city_id" => city_id}) do
+    year = Timetables.get_year!(id)
+    city = Locations.get_city!(city_id)
+    federal_state = Locations.get_federal_state!(city.federal_state_id)
+    federal_states = Locations.list_federal_states
+    country = Locations.get_country!(city.country_id)
+
+    query = from bewegliche_ferientage in Timetables.BeweglicherFerientag,
+            where: bewegliche_ferientage.federal_state_id == ^federal_state.id and
+            bewegliche_ferientage.year_id == ^year.id
+    bewegliche_ferientage = Repo.one(query)
+
+    query = from schools in Locations.School,
+            where: schools.city_id == ^city.id,
+            order_by: schools.name
+    schools = Repo.all(query)
+
+    {:ok, starts_on} = Date.from_erl({year.value, 1, 1})
+    {:ok, ends_on} = Date.from_erl({year.value, 12, 31})
+    months = MehrSchulferien.Collect.calendar_ready_months([city, federal_state, country], starts_on, ends_on)
+
+    render(conn, "show_city_year.html", year: year,
+                                          city: city,
+                                          federal_state: federal_state,
+                                          federal_states: federal_states,
+                                          country: country,
+                                          months: months,
+                                          bewegliche_ferientage: bewegliche_ferientage,
+                                          includes_bewegliche_ferientage_of_other_schools: true,
+                                          schools: schools
+                                          )
+  end
 end

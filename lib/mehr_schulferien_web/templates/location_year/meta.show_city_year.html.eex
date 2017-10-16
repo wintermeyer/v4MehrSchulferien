@@ -1,0 +1,2 @@
+<meta name="description" content="Ferienterminen<%= unless @bewegliche_ferientage == nil do %> und <%= @bewegliche_ferientage.value %> bewegliche Ferientage für <%= @city.name %><% end %> (<%= @year.value %>). Optional mit jüdischen und islamischen Feiertagen.">
+<title>Schulferienkalender <%= @city.name %> <%= @year.value %></title>

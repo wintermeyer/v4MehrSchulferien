@@ -14,7 +14,7 @@
       </p><p>Bitte fragen Sie bei der Schule nach.
       <% else %>
 
-      Wir haben nicht für alle Schulen diese Daten gespeichert. Da sich
+      Wir haben nicht für alle Schulen <%= if assigns[:city] do %>in <%= @city.name %> <% end %>diese Daten gespeichert. Da sich
       viele Schulen aber absprechen, interpolieren wir die gespeicherten Daten
       und zeigen ein "wahrscheinlich ist es so" Ergebnis an. Auf den Kalenderseiten
       der einzelnen Schulen sehen Sie, welche Daten wir gespeichert haben (<a href="/federal_states/<%= @federal_state.slug %>/schools">Liste aller
