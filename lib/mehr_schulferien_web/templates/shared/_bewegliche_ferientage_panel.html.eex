@@ -1,0 +1,27 @@
+<%= unless @bewegliche_ferientage == nil do %>
+  <div class="panel panel-default" id="bewegliche_ferientage_info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Bewegliche Ferientage</h3>
+    </div>
+    <div class="panel-body">
+      <p>
+      Jede Schule in <%= @federal_state.name %> kann
+      <%= @bewegliche_ferientage.value %> <a href="https://de.wikipedia.org/wiki/Bewegliche_Ferientage">bewegliche Ferientage</a> definieren.
+      <%= if assigns[:school] do %>
+      Zu dieser Schule haben wir keine Daten gespeichert. Angezeigte bewegliche
+      Ferientage sind aus Daten anderer Schulen interpoliert. Es kann sein, das
+      diese Angaben stimmen, es muss aber nicht so sein.
+      </p><p>Bitte fragen Sie bei der Schule nach.
+      <% else %>
+
+      Wir haben nicht für alle Schulen diese Daten gespeichert. Da sich
+      viele Schulen aber absprechen, interpolieren wir die gespeicherten Daten
+      und zeigen ein "wahrscheinlich ist es so" Ergebnis an. Auf den Kalenderseiten
+      der einzelnen Schulen sehen Sie, welche Daten wir gespeichert haben (<a href="/federal_states/<%= @federal_state.slug %>/schools">Liste aller
+      Schulen</a> und <a href="/federal_states/<%= @federal_state.slug %>/cities">Liste alle Städte in
+      <%= @federal_state.name %>).</a>
+      <% end %>
+      </p>
+    </div>
+  </div>
+<% end %>

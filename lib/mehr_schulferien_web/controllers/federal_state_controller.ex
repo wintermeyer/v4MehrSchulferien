@@ -54,7 +54,9 @@ defmodule MehrSchulferienWeb.FederalStateController do
                                          federal_state: federal_state,
                                          federal_states: federal_states,
                                          months: months,
-                                         bewegliche_ferientage: bewegliche_ferientage)
+                                         bewegliche_ferientage: bewegliche_ferientage,
+                                         includes_bewegliche_ferientage_of_other_schools: true
+                                         )
   end
 
   def edit(conn, %{"id" => id}) do

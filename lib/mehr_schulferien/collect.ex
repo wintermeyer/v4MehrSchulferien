@@ -93,11 +93,25 @@ defmodule MehrSchulferien.Collect do
     religion_ids = for %MehrSchulferien.Users.Religion{id: id} <- religions, do: id
 
     unless includes_bewegliche_ferientage?(locations, starts_on, ends_on) do
-      nearby_schools = for %MehrSchulferien.Locations.School{id: id} <- locations do
-        Locations.nearby_schools(Locations.get_school!(id))
-      end |> List.flatten
+      if school_ids == [] do
+        # Es handelt sich um die Abfrage für ein FederalState.
+        #
+        query = from(
+                     schools in School,
+                     where: schools.federal_state_id in ^federal_state_ids,
+                     select: schools.id
+                     )
+        school_ids = Repo.all(query)
+      else
+        # Es handelt sich um eine oder mehrere Schulen, die aber keine beweglichen
+        # Ferientage gespeichert haben.
+        #
+        nearby_schools = for %MehrSchulferien.Locations.School{id: id} <- locations do
+          Locations.nearby_schools(Locations.get_school!(id))
+        end |> List.flatten
 
-      school_ids = for %MehrSchulferien.Locations.School{id: id} <- (locations ++ nearby_schools), do: id
+        school_ids = for %MehrSchulferien.Locations.School{id: id} <- (locations ++ nearby_schools), do: id
+      end
     end
 
     query = from(
