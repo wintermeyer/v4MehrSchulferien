@@ -196,3 +196,120 @@ for {name, date} <- [{"Reformationstag", ~D[2017-10-30]}, {"Fastnacht", ~D[2018-
   Timetables.create_period(%{category: "Beweglicher Ferientag",
   school_id: school.id, starts_on: date, ends_on: date, name: name, religion_id: keine_religion.id})
 end
+
+# Jüdische Feiertage
+#
+juedisch = MehrSchulferien.Users.get_religion!("juedisch")
+islamisch = MehrSchulferien.Users.get_religion!("islamisch")
+
+religious_holidays =
+[
+{~D[2016-04-23], ~D[2016-04-23], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2016-04-24], ~D[2016-04-24], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2016-04-29], ~D[2016-04-29], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2016-04-30], ~D[2016-04-30], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2017-04-11], ~D[2017-04-11], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2017-04-12], ~D[2017-04-12], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2017-04-17], ~D[2017-04-17], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2017-04-18], ~D[2017-04-18], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2018-03-31], ~D[2018-03-31], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2018-04-01], ~D[2018-04-01], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2018-04-06], ~D[2018-04-06], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2018-04-07], ~D[2018-04-07], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2019-04-20], ~D[2019-04-20], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2019-04-21], ~D[2019-04-21], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2019-04-26], ~D[2019-04-26], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2019-04-27], ~D[2019-04-27], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2020-04-09], ~D[2020-04-09], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2020-04-10], ~D[2020-04-10], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2020-04-15], ~D[2020-04-15], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2020-04-16], ~D[2020-04-16], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2021-03-28], ~D[2021-03-28], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2021-03-29], ~D[2021-03-29], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2021-04-03], ~D[2021-04-03], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2021-04-04], ~D[2021-04-04], "Pessach (Fest des ungesäuerten Brotes)", juedisch.id},
+{~D[2016-06-12], ~D[2016-06-12], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2016-06-13], ~D[2016-06-13], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2017-05-31], ~D[2017-05-31], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2017-06-01], ~D[2017-06-01], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2018-05-20], ~D[2018-05-20], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2018-05-21], ~D[2018-05-21], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2019-06-09], ~D[2019-06-09], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2019-06-10], ~D[2019-06-10], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2020-05-29], ~D[2020-05-29], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2020-05-30], ~D[2020-05-30], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2021-05-17], ~D[2021-05-17], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2021-05-18], ~D[2021-05-18], "Schawuot (Wochenfest)", juedisch.id},
+{~D[2016-10-03], ~D[2016-10-03], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2016-10-04], ~D[2016-10-04], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2017-09-21], ~D[2017-09-21], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2017-09-22], ~D[2017-09-22], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2018-09-10], ~D[2018-09-10], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2018-09-11], ~D[2018-09-11], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2019-09-30], ~D[2019-09-30], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2019-10-01], ~D[2019-10-01], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2020-09-19], ~D[2020-09-19], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2020-09-20], ~D[2020-09-20], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2021-09-07], ~D[2021-09-07], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2021-09-08], ~D[2021-09-08], "Rosch Haschana (Neujahrsfest)", juedisch.id},
+{~D[2016-10-12], ~D[2016-10-12], "Jom Kippur (Versöhnungsfest)", juedisch.id},
+{~D[2017-09-30], ~D[2017-09-30], "Jom Kippur (Versöhnungsfest)", juedisch.id},
+{~D[2018-09-19], ~D[2018-09-19], "Jom Kippur (Versöhnungsfest)", juedisch.id},
+{~D[2019-10-09], ~D[2019-10-09], "Jom Kippur (Versöhnungsfest)", juedisch.id},
+{~D[2020-09-28], ~D[2020-09-28], "Jom Kippur (Versöhnungsfest)", juedisch.id},
+{~D[2021-09-16], ~D[2021-09-16], "Jom Kippur (Versöhnungsfest)", juedisch.id},
+{~D[2016-10-17], ~D[2016-10-17], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2016-10-18], ~D[2016-10-18], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2017-10-05], ~D[2017-10-05], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2017-10-06], ~D[2017-10-06], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2018-09-24], ~D[2018-09-24], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2018-09-25], ~D[2018-09-25], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2019-10-14], ~D[2019-10-14], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2019-10-15], ~D[2019-10-15], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2020-10-03], ~D[2020-10-03], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2020-10-04], ~D[2020-10-04], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2021-09-21], ~D[2021-09-21], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2021-09-22], ~D[2021-09-22], "Sukkot (Laubhüttenfest)", juedisch.id},
+{~D[2016-10-24], ~D[2016-10-24], "Schemini Azeret (Schlussfest)", juedisch.id},
+{~D[2017-10-12], ~D[2017-10-12], "Schemini Azeret (Schlussfest)", juedisch.id},
+{~D[2018-10-01], ~D[2018-10-01], "Schemini Azeret (Schlussfest)", juedisch.id},
+{~D[2019-10-21], ~D[2019-10-21], "Schemini Azeret (Schlussfest)", juedisch.id},
+{~D[2020-10-10], ~D[2020-10-10], "Schemini Azeret (Schlussfest)", juedisch.id},
+{~D[2021-09-28], ~D[2021-09-28], "Schemini Azeret (Schlussfest)", juedisch.id},
+{~D[2016-10-25], ~D[2016-10-25], "Simchat Thora (Gesetzesfreude)", juedisch.id},
+{~D[2017-10-13], ~D[2017-10-13], "Simchat Thora (Gesetzesfreude)", juedisch.id},
+{~D[2018-10-02], ~D[2018-10-02], "Simchat Thora (Gesetzesfreude)", juedisch.id},
+{~D[2019-10-22], ~D[2019-10-22], "Simchat Thora (Gesetzesfreude)", juedisch.id},
+{~D[2020-10-11], ~D[2020-10-11], "Simchat Thora (Gesetzesfreude)", juedisch.id},
+{~D[2021-09-29], ~D[2021-09-29], "Simchat Thora (Gesetzesfreude)", juedisch.id},
+
+{~D[2016-07-05], ~D[2016-07-05], "Ramadanfest (Fastenbrechenfest)", islamisch.id},
+{~D[2017-06-25], ~D[2017-06-25], "Ramadanfest (Fastenbrechenfest)", islamisch.id},
+{~D[2018-06-15], ~D[2018-06-15], "Ramadanfest (Fastenbrechenfest)", islamisch.id},
+{~D[2019-06-05], ~D[2019-06-05], "Ramadanfest (Fastenbrechenfest)", islamisch.id},
+{~D[2020-05-24], ~D[2020-05-24], "Ramadanfest (Fastenbrechenfest)", islamisch.id},
+{~D[2021-05-13], ~D[2021-05-13], "Ramadanfest (Fastenbrechenfest)", islamisch.id},
+{~D[2016-09-12], ~D[2016-09-12], "Opferfest", islamisch.id},
+{~D[2017-09-01], ~D[2017-09-01], "Opferfest", islamisch.id},
+{~D[2018-08-21], ~D[2018-08-21], "Opferfest", islamisch.id},
+{~D[2019-08-11], ~D[2019-08-11], "Opferfest", islamisch.id},
+{~D[2020-07-31], ~D[2020-07-31], "Opferfest", islamisch.id},
+{~D[2021-07-20], ~D[2021-07-20], "Opferfest", islamisch.id}
+]
+
+federal_states = MehrSchulferien.Locations.list_federal_states
+
+for holiday <- religious_holidays do
+  {starts_on, ends_on, name, religion_id} = holiday
+  for federal_state <- federal_states do
+    MehrSchulferien.Timetables.create_period(%{
+      category: "Religiöser Feiertag",
+      federal_state_id: federal_state.id,
+      name: name,
+      starts_on: starts_on,
+      ends_on: ends_on,
+      religion_id: religion_id,
+      source: "http://www.berlin.de/sen/bjf/service/kalender/ferien/artikel.420979.php"
+    })
+  end
+end
