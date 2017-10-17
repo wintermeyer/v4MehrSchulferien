@@ -1,0 +1,23 @@
+<%= if assigns[:available_religions] do %>
+  <div class="panel panel-default" id="bewegliche_ferientage_info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Religionen</h3>
+    </div>
+    <div class="panel-body">
+      <p>Zu diesen religiösen Feiertagen können Schüler eine Beurlaubung beantragen.</p>
+      <nav aria-label="Page">
+        <ul class="pagination navigation">
+          <%= for religion <- @available_religions do %>
+            <li <%= if assigns[:religion] && @religion == religion do %>class="active"<% end %>>
+              <%= if assigns[:school] do %>
+                <a href="/schools/<%= @school.slug %>/religions/<%= religion.slug %>"><%= religion.name %></a>
+              <% else %>
+                <a href="/federal_states/<%= @federal_state.slug %>/religions/<%= religion.slug %>"><%= religion.name %></a>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
+  </div>
+<% end %>

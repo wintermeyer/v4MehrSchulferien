@@ -59,6 +59,10 @@ defmodule MehrSchulferienWeb.SchoolController do
           end
       end
 
+    query = from religion in MehrSchulferien.Users.Religion,
+            where: religion.name in ["Jüdisch", "Islamisch"]
+    available_religions = Repo.all(query)
+
     render(conn, "show_next_12_months.html", school: school,
                                           year: year,
                                           country: country,
@@ -67,7 +71,8 @@ defmodule MehrSchulferienWeb.SchoolController do
                                           months: months,
                                           bewegliche_ferientage: bewegliche_ferientage,
                                           nearby_schools: nearby_schools,
-                                          includes_bewegliche_ferientage_of_other_schools: includes_bewegliche_ferientage_of_other_schools
+                                          includes_bewegliche_ferientage_of_other_schools: includes_bewegliche_ferientage_of_other_schools,
+                                          available_religions: available_religions
                                           )
   end
 

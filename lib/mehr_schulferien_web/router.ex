@@ -49,6 +49,7 @@ defmodule MehrSchulferienWeb.Router do
 
     resources "/schools", SchoolController, only: [:show] do
       resources "/years", LocationYearController, only: [:show]
+      resources "/religions", LocationReligionController, only: [:show]
     end
 
     resources "/countries", CountryController, only: [:show] do

@@ -54,6 +54,10 @@ defmodule MehrSchulferienWeb.CityController do
 
     months = MehrSchulferien.Collect.calendar_ready_months([city, federal_state, country], starts_on, ends_on)
 
+    query = from religion in MehrSchulferien.Users.Religion,
+            where: religion.name in ["Jüdisch", "Islamisch"]
+    available_religions = Repo.all(query)
+
     render(conn, "show_city_next_12_months.html", year: year,
                                          city: city,
                                          country: country,
@@ -62,7 +66,8 @@ defmodule MehrSchulferienWeb.CityController do
                                          months: months,
                                          bewegliche_ferientage: bewegliche_ferientage,
                                          includes_bewegliche_ferientage_of_other_schools: true,
-                                         schools: schools
+                                         schools: schools,
+                                         available_religions: available_religions
                                          )
   end
 

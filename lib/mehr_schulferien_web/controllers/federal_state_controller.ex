@@ -49,13 +49,18 @@ defmodule MehrSchulferienWeb.FederalStateController do
 
     months = MehrSchulferien.Collect.calendar_ready_months([federal_state, country], starts_on, ends_on)
 
+    query = from religion in MehrSchulferien.Users.Religion,
+            where: religion.name in ["Jüdisch", "Islamisch"]
+    available_religions = Repo.all(query)
+
     render(conn, "show_federal_state_next_12_months.html", year: year,
                                          country: country,
                                          federal_state: federal_state,
                                          federal_states: federal_states,
                                          months: months,
                                          bewegliche_ferientage: bewegliche_ferientage,
-                                         includes_bewegliche_ferientage_of_other_schools: true
+                                         includes_bewegliche_ferientage_of_other_schools: true,
+                                         available_religions: available_religions
                                          )
   end
 

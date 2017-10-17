@@ -28,13 +28,18 @@ defmodule MehrSchulferienWeb.LocationYearController do
 
     months = MehrSchulferien.Collect.calendar_ready_months([federal_state, country], starts_on, ends_on)
 
+    query = from religion in MehrSchulferien.Users.Religion,
+            where: religion.name in ["Jüdisch", "Islamisch"]
+    available_religions = Repo.all(query)
+
     render(conn, "show_federal_state_year.html", year: year,
                                          country: country,
                                          federal_state: federal_state,
                                          federal_states: federal_states,
                                          months: months,
                                          bewegliche_ferientage: bewegliche_ferientage,
-                                         includes_bewegliche_ferientage_of_other_schools: true)
+                                         includes_bewegliche_ferientage_of_other_schools: true,
+                                         available_religions: available_religions)
   end
 
   # /schools/:school_id/years/:id
@@ -68,6 +73,10 @@ defmodule MehrSchulferienWeb.LocationYearController do
           end
       end
 
+    query = from religion in MehrSchulferien.Users.Religion,
+            where: religion.name in ["Jüdisch", "Islamisch"]
+    available_religions = Repo.all(query)
+
     render(conn, "show_school_year.html", school: school,
                                           year: year,
                                           city: city,
@@ -76,6 +85,7 @@ defmodule MehrSchulferienWeb.LocationYearController do
                                           months: months,
                                           bewegliche_ferientage: bewegliche_ferientage,
                                           nearby_schools: nearby_schools,
+                                          available_religions: available_religions,
                                           includes_bewegliche_ferientage_of_other_schools: includes_bewegliche_ferientage_of_other_schools
                                           )
   end
