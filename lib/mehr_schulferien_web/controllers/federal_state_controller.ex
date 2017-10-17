@@ -18,13 +18,6 @@ defmodule MehrSchulferienWeb.FederalStateController do
       {federal_state.name, federal_state.slug, cities_counter, schools_counter}
     end
 
-    # query = from federal_states in FederalState,
-    #         left_join: cities in City,
-    #         on: cities.id == federal_states.id,
-    #         group_by: federal_states.id,
-    #         select: {federal_states.name, federal_states.slug, count(cities.id)}
-    # federal_states = Repo.all(query)
-
     render(conn, "index.html", federal_states: federal_states)
   end
 
