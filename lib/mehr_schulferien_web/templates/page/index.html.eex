@@ -18,6 +18,9 @@
 </div>
 
 <div class="row">
+  <div class="col-sm-3">
+    <%= render MehrSchulferienWeb.FederalStateView, "_list_of_federal_states_panel.html", federal_states: @federal_states %>
+  </div>
   <div class="col-sm-9">
     <p>mehr-schulferien.de gibt eine schnelle Übersicht über Ferientermine und
     das ist gar nicht so unkompliziert wie man es sich am Anfang denkt. Ein paar
@@ -31,17 +34,32 @@
     </ul>
     <h2>Schüler, Lehrer und Eltern</h2>
     <p>Suchen Sie am besten direkt den Terminkalender der besuchten Schule oder
-      Ihrer Stadt. Auf den Schulseiten bekommen Sie die genauesten Informationen. Am schnellsten geht das über
+      Ihrer Stadt. Auf den Schulseiten bekommen Sie die genauesten Informationen.
+      Am schnellsten geht das über die <a href="/federal_states">Liste der Bundesländer</a>,
     die <a href="/countries/deutschland/cities">Liste aller Städte</a> oder die
     <a href="http://localhost:4000/countries/deutschland/schools">Liste aller Schulen</a>.
     Alternativ können Sie
     natürlich auch auf das Bundesland klicken.</p>
-    <h2>Alle die nicht in den Schulferien verreisen müssen</h2>
-    <p>Für Sie haben wir einen besonderen Service: Unseren Inverse-Kalender,
+    <h2>Alle anderen</h2>
+    <p>Für Sie haben wir einen besonderen Service: Unser Inverse-Kalender,
     der Ihnen die Zeiten anzeigt, an denen es in keinem Bundesland Schulferien
-    gibt.</p>
+    gibt. <strong>Suchen Sie nach Wochen, die farblich nicht hinterlegt sind.</strong> In diesen
+    Wochen können Sie am kostengünstigsten in Urlaub fahren.</p>
+    <p><strong>Legende:</strong> Grün hinterlegte Tage sind in mindestens einem
+    Bundesland Schulferien. Blau hinterlegte Tage sind in mindestens einem
+    Bundesland gesetzliche Feiertage</p>
+
+    <div class="row hidden-sm">
+      <div class="col-xs-12">
+        <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 3, inverse: true %>
+      </div>
+    </div>
+    <div class="row visible-sm-* hidden-xs hidden-md hidden-lg">
+      <div class="col-xs-12">
+        <%= render MehrSchulferienWeb.SharedView, "_calendar.html", months: @months, month_per_row: 2, inverse: true %>
+      </div>
+    </div>
+
   </div>
-  <div class="col-sm-3">
-    <%= render MehrSchulferienWeb.FederalStateView, "_list_of_federal_states_panel.html", federal_states: @federal_states %>
-  </div>
+
 </div>

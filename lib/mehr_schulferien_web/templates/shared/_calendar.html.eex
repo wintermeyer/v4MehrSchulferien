@@ -1,14 +1,20 @@
 <% divider = round (12/@month_per_row) %>
 <% [head|tail] = Enum.chunk_every(@months,@month_per_row) %>
 
+<% if assigns[:inverse] do %>
+  <% inverse = @inverse %>
+<% else %>
+  <% inverse = false %>
+<% end %>
+
 <%= for three_months <- [head] do %>
   <div class="row">
     <%= for month <- three_months do %>
       <div class="col-sm-<%= divider %>">
         <%= if assigns[:includes_bewegliche_ferientage_of_other_schools] do %>
-          <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month, includes_bewegliche_ferientage_of_other_schools: @includes_bewegliche_ferientage_of_other_schools %>
+          <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month, inverse: inverse, includes_bewegliche_ferientage_of_other_schools: @includes_bewegliche_ferientage_of_other_schools %>
         <% else %>
-          <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month, includes_bewegliche_ferientage_of_other_schools: false %>
+          <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month, inverse: inverse, includes_bewegliche_ferientage_of_other_schools: false %>
         <% end %>
       </div>
     <% end %>
@@ -22,9 +28,9 @@
     <%= for month <- three_months do %>
       <div class="col-sm-<%= divider %>">
         <%= if assigns[:includes_bewegliche_ferientage_of_other_schools] do %>
-          <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month, includes_bewegliche_ferientage_of_other_schools: @includes_bewegliche_ferientage_of_other_schools %>
+          <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month, inverse: inverse, includes_bewegliche_ferientage_of_other_schools: @includes_bewegliche_ferientage_of_other_schools %>
         <% else %>
-          <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month, includes_bewegliche_ferientage_of_other_schools: false %>
+          <%= render MehrSchulferienWeb.SharedView, "_month.html", month: month, inverse: inverse, includes_bewegliche_ferientage_of_other_schools: false %>
         <% end %>
       </div>
     <% end %>

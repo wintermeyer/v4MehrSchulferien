@@ -36,6 +36,8 @@
         <% end %>
       </tbody>
     </table>
-    <%= render MehrSchulferienWeb.SharedView, "_summary_periods.html", month: @month, includes_bewegliche_ferientage_of_other_schools: @includes_bewegliche_ferientage_of_other_schools %>
+    <%= unless @inverse do %>
+      <%= render MehrSchulferienWeb.SharedView, "_summary_periods.html", month: @month, includes_bewegliche_ferientage_of_other_schools: @includes_bewegliche_ferientage_of_other_schools %>
+    <% end %>
   </div>
 </div>
