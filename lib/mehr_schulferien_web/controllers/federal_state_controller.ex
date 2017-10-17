@@ -12,7 +12,19 @@ defmodule MehrSchulferienWeb.FederalStateController do
 
 
   def index(conn, _params) do
-    federal_states = Locations.list_federal_states()
+    federal_states = for federal_state <- Locations.list_federal_states do
+      cities_counter = Repo.one(from c in City, where: c.federal_state_id == ^federal_state.id, select: count("*"))
+      schools_counter = Repo.one(from s in School, where: s.federal_state_id == ^federal_state.id, select: count("*"))
+      {federal_state.name, federal_state.slug, cities_counter, schools_counter}
+    end
+
+    # query = from federal_states in FederalState,
+    #         left_join: cities in City,
+    #         on: cities.id == federal_states.id,
+    #         group_by: federal_states.id,
+    #         select: {federal_states.name, federal_states.slug, count(cities.id)}
+    # federal_states = Repo.all(query)
+
     render(conn, "index.html", federal_states: federal_states)
   end
 
