@@ -53,6 +53,6 @@ config :mehr_schulferien, MehrSchulferien.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "mehr_schulferien_dev",
+  database: "v4_mehr_schulferien_dev",
   hostname: "localhost",
   pool_size: 10
